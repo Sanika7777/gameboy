@@ -1,0 +1,50 @@
+# NEOBRICK sound effects (design §10.7). All original.
+# sfx <name> <pulse|wave|noise> from=<Hz> [to=<Hz>] ms=<n> [vol=0-15] [duty=12|25|50|75] [decay=none|slow|fast] [mode=long|short]
+
+# UI
+sfx move     pulse duty=25 from=660  ms=30  vol=8  decay=fast
+sfx select   pulse duty=50 from=880  to=1320 ms=70 vol=10 decay=fast
+sfx back     pulse duty=50 from=660  to=440  ms=70 vol=10 decay=fast
+sfx pause    pulse duty=25 from=1046 to=523  ms=90 vol=9  decay=fast
+sfx boot1    wave  from=784  ms=160 vol=13 decay=slow
+sfx boot2    wave  from=1568 ms=320 vol=13 decay=slow
+sfx insert   noise from=1800 to=600  ms=120 vol=9 decay=fast
+sfx error    pulse duty=50 from=220  to=110  ms=300 vol=12 decay=slow
+sfx score    pulse duty=12 from=1320 to=1760 ms=120 vol=10 decay=slow
+sfx gameover wave  from=392  to=196  ms=700 vol=14 decay=slow
+
+# SERPENT
+sfx eat      pulse duty=50 from=880  to=1320 ms=60  vol=12 decay=fast
+sfx critter  pulse duty=12 from=1046 to=2093 ms=140 vol=11 decay=slow
+sfx bonus    wave  from=1318 to=1760 ms=200 vol=12 decay=slow
+sfx die      noise from=1200 to=80   ms=500 vol=14 decay=slow
+
+# MINEFIELD
+sfx reveal   pulse duty=25 from=1200 ms=25  vol=7  decay=fast
+sfx flag     pulse duty=50 from=520  to=780 ms=50 vol=10 decay=fast
+sfx explode  noise from=900  to=60   ms=700 vol=15 decay=slow
+sfx win      wave  from=523  to=1046 ms=500 vol=13 decay=slow
+
+# STACKFALL
+sfx shift    pulse duty=12 from=440  ms=20  vol=6  decay=fast
+sfx rotate   pulse duty=25 from=740  to=880 ms=35 vol=8 decay=fast
+sfx lock     noise from=3000 to=1500 ms=40  vol=8  decay=fast mode=short
+sfx drop     noise from=1500 to=300  ms=90  vol=11 decay=fast
+sfx line     pulse duty=50 from=1046 to=2093 ms=220 vol=12 decay=slow
+sfx hold     pulse duty=25 from=587  to=784 ms=60 vol=9 decay=fast
+
+# FLAPWING
+sfx flap     pulse duty=25 from=330  to=660 ms=60 vol=9 decay=fast
+sfx point    pulse duty=50 from=1318 to=1568 ms=80 vol=10 decay=fast
+sfx hit      noise from=2500 to=200  ms=300 vol=14 decay=slow
+sfx medal    wave  from=1046 to=2093 ms=400 vol=13 decay=slow
+
+# SILVERBALL
+sfx bumper   pulse duty=50 from=1568 to=784 ms=70 vol=12 decay=fast
+sfx sling    pulse duty=25 from=988  to=660 ms=50 vol=11 decay=fast
+sfx target   pulse duty=12 from=2093 ms=60  vol=11 decay=fast
+sfx rollover pulse duty=50 from=1318 ms=40  vol=9  decay=fast
+sfx flipper  noise from=4000 to=2000 ms=25  vol=6  decay=fast mode=short
+sfx launch   noise from=400  to=1600 ms=200 vol=11 decay=slow
+sfx drain    wave  from=440  to=110  ms=600 vol=13 decay=slow
+sfx tilt     pulse duty=50 from=110  ms=600 vol=13 decay=none

@@ -1,0 +1,314 @@
+[
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/audio/Channel.cpp.o -c /home/sanika/projects/cpp_minipro/src/audio/Channel.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/audio/Channel.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/audio/Channel.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/audio/Mixer.cpp.o -c /home/sanika/projects/cpp_minipro/src/audio/Mixer.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/audio/Mixer.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/audio/Mixer.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/audio/Sfx.cpp.o -c /home/sanika/projects/cpp_minipro/src/audio/Sfx.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/audio/Sfx.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/audio/Sfx.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/core/Log.cpp.o -c /home/sanika/projects/cpp_minipro/src/core/Log.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/core/Log.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/core/Log.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/device/DeviceShell.cpp.o -c /home/sanika/projects/cpp_minipro/src/device/DeviceShell.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/device/DeviceShell.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/device/DeviceShell.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/device/ILayout.cpp.o -c /home/sanika/projects/cpp_minipro/src/device/ILayout.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/device/ILayout.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/device/ILayout.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/AllGames.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/AllGames.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/AllGames.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/AllGames.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/Game.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/Game.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/Game.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/Game.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/flapwing/FlapwingGame.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/flapwing/FlapwingGame.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/flapwing/FlapwingGame.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/flapwing/FlapwingGame.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/minefield/MinefieldGame.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/minefield/MinefieldGame.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/minefield/MinefieldGame.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/minefield/MinefieldGame.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/serpent/SerpentGame.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/serpent/SerpentGame.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/serpent/SerpentGame.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/serpent/SerpentGame.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/silverball/Collider.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/silverball/Collider.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/silverball/Collider.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/silverball/Collider.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/silverball/SilverballGame.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/silverball/SilverballGame.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/silverball/SilverballGame.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/silverball/SilverballGame.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/silverball/TableElement.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/silverball/TableElement.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/silverball/TableElement.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/silverball/TableElement.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/silverball/TableLoader.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/silverball/TableLoader.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/silverball/TableLoader.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/silverball/TableLoader.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/games/stackfall/StackfallGame.cpp.o -c /home/sanika/projects/cpp_minipro/src/games/stackfall/StackfallGame.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/games/stackfall/StackfallGame.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/games/stackfall/StackfallGame.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/AssetCache.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/AssetCache.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/AssetCache.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/AssetCache.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/BitmapFont.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/BitmapFont.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/BitmapFont.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/BitmapFont.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/Compositor.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/Compositor.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/Compositor.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/Compositor.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/Palette.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/Palette.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/Palette.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/Palette.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/PixelBuffer.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/PixelBuffer.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/PixelBuffer.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/PixelBuffer.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/Renderer.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/Renderer.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/Renderer.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/Renderer.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/gfx/Sprite.cpp.o -c /home/sanika/projects/cpp_minipro/src/gfx/Sprite.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/gfx/Sprite.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/gfx/Sprite.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/input/InputSources.cpp.o -c /home/sanika/projects/cpp_minipro/src/input/InputSources.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/input/InputSources.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/input/InputSources.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/io/Binary.cpp.o -c /home/sanika/projects/cpp_minipro/src/io/Binary.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/io/Binary.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/io/Binary.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/io/HighScoreTable.cpp.o -c /home/sanika/projects/cpp_minipro/src/io/HighScoreTable.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/io/HighScoreTable.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/io/HighScoreTable.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/io/IniFile.cpp.o -c /home/sanika/projects/cpp_minipro/src/io/IniFile.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/io/IniFile.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/io/IniFile.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/io/Settings.cpp.o -c /home/sanika/projects/cpp_minipro/src/io/Settings.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/io/Settings.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/io/Settings.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/io/TextReader.cpp.o -c /home/sanika/projects/cpp_minipro/src/io/TextReader.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/io/TextReader.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/io/TextReader.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/BootScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/BootScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/BootScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/BootScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/ErrorScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/ErrorScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/ErrorScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/ErrorScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/GameScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/GameScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/GameScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/GameScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/MenuScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/MenuScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/MenuScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/MenuScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/PauseScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/PauseScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/PauseScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/PauseScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/SaveState.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/SaveState.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/SaveState.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/SaveState.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/Scene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/Scene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/Scene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/Scene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/ScoreEntryScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/ScoreEntryScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/ScoreEntryScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/ScoreEntryScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/Services.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/Services.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/Services.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/Services.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/scenes/SettingsScene.cpp.o -c /home/sanika/projects/cpp_minipro/src/scenes/SettingsScene.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/scenes/SettingsScene.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/scenes/SettingsScene.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbcore.dir/src/ui/Widget.cpp.o -c /home/sanika/projects/cpp_minipro/src/ui/Widget.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/src/ui/Widget.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir/src/ui/Widget.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/main.cpp.o -c /home/sanika/projects/cpp_minipro/tests/main.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/main.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/main.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_audio.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_audio.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_audio.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_audio.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_core.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_core.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_core.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_core.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_flapwing.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_flapwing.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_flapwing.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_flapwing.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_gfx.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_gfx.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_gfx.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_gfx.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_input.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_input.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_input.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_input.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_io.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_io.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_io.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_io.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_minefield.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_minefield.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_minefield.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_minefield.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_scenes.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_scenes.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_scenes.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_scenes.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_serpent.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_serpent.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_serpent.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_serpent.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_silverball.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_silverball.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_silverball.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_silverball.cpp.o"
+},
+{
+  "directory": "/home/sanika/projects/cpp_minipro/build/native-release",
+  "command": "/usr/bin/c++ -DNB_ASSET_DIR=\\\"/home/sanika/projects/cpp_minipro/assets\\\" -I/home/sanika/projects/cpp_minipro/src -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -o CMakeFiles/nbtests.dir/tests/test_stackfall.cpp.o -c /home/sanika/projects/cpp_minipro/tests/test_stackfall.cpp",
+  "file": "/home/sanika/projects/cpp_minipro/tests/test_stackfall.cpp",
+  "output": "/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir/tests/test_stackfall.cpp.o"
+}
+]

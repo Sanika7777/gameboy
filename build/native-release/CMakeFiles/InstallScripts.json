@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/sanika/projects/cpp_minipro/build/native-release/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

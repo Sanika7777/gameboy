@@ -1,0 +1,7 @@
+# STACKFALL feel (design §11.3). Times are in 1/60 s frames.
+# gravity: frames per row for levels 1, 2, 3 … (the last value repeats for higher levels)
+gravity 48 43 38 33 28 23 18 13 8 6 5 5 5 4 4 4 3 3 3 2
+das 10            # delay before a held left/right starts repeating
+arr 2             # frames between repeats (0 = slide straight to the wall)
+lock 30           # lock delay once the piece touches down
+lock_resets 15    # moves/rotations that may restart the lock delay

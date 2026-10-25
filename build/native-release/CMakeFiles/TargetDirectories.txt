@@ -1,0 +1,5 @@
+/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbcore.dir
+/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/nbtests.dir
+/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/test.dir
+/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/edit_cache.dir
+/home/sanika/projects/cpp_minipro/build/native-release/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,67 @@
+# serpent.spr — original NEOBRICK sprites ('0'-'3' shade, '.' transparent)
+sprite head_up 4 4
+.33.
+3333
+3.33
+3333
+end
+sprite head_down 4 4
+3333
+33.3
+3333
+.33.
+end
+sprite head_left 4 4
+.333
+33.3
+3333
+.333
+end
+sprite head_right 4 4
+333.
+3.33
+3333
+333.
+end
+sprite open_up 4 4
+....
+33.3
+3.33
+3333
+end
+sprite open_down 4 4
+3333
+33.3
+3.33
+....
+end
+sprite open_left 4 4
+.333
+.3.3
+..33
+.333
+end
+sprite open_right 4 4
+333.
+3.3.
+33..
+333.
+end
+sprite food 4 4
+..2.
+.33.
+3333
+.33.
+end
+sprite critter 4 4
+3..3
+.33.
+3333
+3..3
+end
+sprite critter2 4 4
+3..3
+.33.
+.33.
+3333
+end

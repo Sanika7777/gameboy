@@ -1,0 +1,7 @@
+# LCD palettes: name, then shades 0 Paper .. 3 Ink (design §3.5)
+palette moss  C9D69A 8BA35A 3E5C38 1E2A1E
+palette ash   E3E6DD A3A8A0 555B57 222222
+palette ember FFD49A D9822B 7A3B12 2B1408
+palette tide  D6F0F5 6FA3C9 2E4A7A 0F1A2E
+palette berry F5C8DA C45A8C 6B2153 2A0F24
+palette stark FFFFFF AAAAAA 555555 000000

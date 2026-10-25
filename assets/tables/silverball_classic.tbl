@@ -1,0 +1,36 @@
+# SILVERBALL "Classic" — an original table. Units: LCD pixels, origin top-left of the table.
+table    name="Classic" width=160 height=288 gravity=300
+
+# Outer shell: left side, top arc, right outer wall.
+wall     points=6,230 6,40 14,22 30,10 54,4 80,3 106,4 130,10 146,20 156,30 156,288
+# Plunger lane divider and the right inlane down to the right flipper.
+wall     points=146,288 146,60
+wall     points=146,230 116,258
+# Left inlane down to the left flipper.
+wall     points=6,230 44,258
+# Top lane guides between the rollovers.
+wall     points=68,14 68,30
+wall     points=92,14 92,30
+
+bumper   x=60  y=72  r=7 score=100
+bumper   x=100 y=72  r=7 score=100
+bumper   x=80  y=102 r=7 score=100
+
+sling    x1=18  y1=198 x2=34  y2=230 score=10
+sling    x1=142 y1=198 x2=126 y2=230 score=10
+
+target   x=34  y=150 w=7 h=3 score=500 group=A
+target   x=44  y=150 w=7 h=3 score=500 group=A
+target   x=54  y=150 w=7 h=3 score=500 group=A
+target   x=99  y=150 w=7 h=3 score=500 group=B
+target   x=109 y=150 w=7 h=3 score=500 group=B
+target   x=119 y=150 w=7 h=3 score=500 group=B
+
+rollover x=56  y=22 lane=1
+rollover x=80  y=22 lane=2
+rollover x=104 y=22 lane=3
+
+flipper  side=left  pivot=48,262  length=22
+flipper  side=right pivot=112,262 length=22
+plunger  x=151 y=272
+drain    y=284
