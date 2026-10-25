@@ -10,20 +10,19 @@
 using namespace nb::io;
 
 namespace {
-
 std::filesystem::path tmp(const std::string& name) { return std::filesystem::temp_directory_path() / name; }
 
 void writeText(const std::filesystem::path& p, const std::string& s) { std::ofstream(p) << s; }
 
 ScoreEntry entry(char c, std::uint32_t v, std::uint32_t t) { return {{c, c, c}, v, t}; }
 
-} // namespace
+}
 
 TEST("Serializer round trip: ints, floats, strings, containers") {
     BinaryWriter w;
     w << std::uint16_t{0xBEEF} << std::int32_t{-5} << 1.5f << true << std::string("hi")
       << std::vector<int>{1, 2, 3} << std::array<char, 3>{'a', 'b', 'c'};
-    CHECK(w.data()[0] == 0xEF);   // little-endian
+    CHECK(w.data()[0] == 0xEF);
     BinaryReader r(w.data());
     CHECK(r.get<std::uint16_t>() == 0xBEEF);
     CHECK(r.get<std::int32_t>() == -5);
@@ -92,7 +91,7 @@ TEST("HighScoreTable ordering both directions") {
     hi.submit(entry('B', 30, 2));
     hi.submit(entry('C', 10, 3));
     CHECK(hi.entries()[0].value == 30u);
-    CHECK(hi.entries()[1].initials[0] == 'A');   // tie: earlier first
+    CHECK(hi.entries()[1].initials[0] == 'A');
     HighScoreTable lo(ScoreOrder::LowerIsBetter);
     lo.submit(entry('A', 50, 1));
     lo.submit(entry('B', 20, 2));

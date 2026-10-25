@@ -3,7 +3,6 @@
 #include <iostream>
 
 namespace nb {
-
 void Log::emit(Level level, const std::string& msg) {
     static constexpr const char* kTags[] = {"[info] ", "[warn] ", "[error] "};
     const char* tag = kTags[static_cast<int>(level)];
@@ -11,4 +10,4 @@ void Log::emit(Level level, const std::string& msg) {
     if (file_.is_open()) file_ << tag << msg << '\n' << std::flush;
 }
 
-} // namespace nb
+}

@@ -1,14 +1,11 @@
 #pragma once
 
-// Role: owns every input source and merges them into one InputState per frame.
-
 #include "input/InputSources.hpp"
 
 #include <memory>
 #include <vector>
 
 namespace nb::input {
-
 class InputManager {
 public:
     explicit InputManager(const IHitTest& hits) {
@@ -22,7 +19,6 @@ public:
         for (auto& s : sources_) s->handle(e);
     }
 
-    // Once per frame, after all events are handled.
     void beginFrame() {
         gestures_.tick();
         ButtonSet held;
@@ -34,9 +30,9 @@ public:
     [[nodiscard]] const InputState& state() const noexcept { return state_; }
 
 private:
-    GestureRecognizer gestures_;   // declared first: the sources hold a reference to it
+    GestureRecognizer gestures_;
     std::vector<std::unique_ptr<IInputSource>> sources_;
     InputState state_;
 };
 
-} // namespace nb::input
+}

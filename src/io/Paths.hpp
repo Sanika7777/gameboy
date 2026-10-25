@@ -1,11 +1,8 @@
 #pragma once
 
-// Role: where read-only assets and writable saves live; set once by main() per platform.
-
 #include <filesystem>
 
 namespace nb::io {
-
 class Paths {
 public:
     static void configure(std::filesystem::path assets, std::filesystem::path saves) {
@@ -22,4 +19,4 @@ private:
     static std::filesystem::path& saves_() { static std::filesystem::path p = "."; return p; }
 };
 
-} // namespace nb::io
+}

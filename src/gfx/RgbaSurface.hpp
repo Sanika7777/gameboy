@@ -1,8 +1,5 @@
 #pragma once
 
-// Role: the composed device face in true colour, ready for texture upload.
-// Demonstrates: Rule of Zero
-
 #include "core/Vec2.hpp"
 
 #include <cstdint>
@@ -10,11 +7,8 @@
 #include <vector>
 
 namespace nb::gfx {
+using Rgba = std::uint32_t;
 
-using Rgba = std::uint32_t;   // 0xAARRGGBB, matches SDL_PIXELFORMAT_ARGB8888
-
-// Same job as PixelBuffer but std::vector owns the memory, so the compiler-generated
-// copy, move and destructor are already correct.
 class RgbaSurface {
 public:
     void resize(Vec2i size) {
@@ -31,4 +25,4 @@ private:
     std::vector<Rgba> px_;
 };
 
-} // namespace nb::gfx
+}

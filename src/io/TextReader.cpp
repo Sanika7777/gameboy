@@ -3,9 +3,7 @@
 #include <charconv>
 
 namespace nb::io {
-
 namespace {
-
 std::string_view trim(std::string_view s) {
     const auto b = s.find_first_not_of(" \t\r");
     if (b == std::string_view::npos) return {};
@@ -13,11 +11,11 @@ std::string_view trim(std::string_view s) {
     return s.substr(b, e - b + 1);
 }
 
-} // namespace
+}
 
 TextReader::TextReader(const std::filesystem::path& file)
     : in_(file), name_(file.filename().string()) {
-    if (!in_) throw FileNotFoundError("FILE NOT FOUND", file.string());
+    if (!in_) throw AssetError("FILE NOT FOUND", file.string());
 }
 
 bool TextReader::nextRaw() {
@@ -63,7 +61,6 @@ int parseInt(const TextReader& r, std::string_view s, int base) {
 }
 
 float parseFloat(const TextReader& r, std::string_view s) {
-    // std::from_chars for float is missing from some standard libraries; std::stof is portable.
     try {
         std::size_t used = 0;
         const float v = std::stof(std::string(s), &used);
@@ -106,4 +103,4 @@ int Attrs::integer(std::string_view key, int fallback) const { return has(key) ?
 float Attrs::real(std::string_view key) const { return parseFloat(reader_, str(key)); }
 float Attrs::real(std::string_view key, float fallback) const { return has(key) ? real(key) : fallback; }
 
-} // namespace nb::io
+}

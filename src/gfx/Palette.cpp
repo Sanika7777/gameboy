@@ -7,9 +7,7 @@
 #include <utility>
 
 namespace nb::gfx {
-
 namespace {
-
 struct Registry {
     std::vector<std::string> names{"moss"};
     std::vector<Palette> palettes{Palette{0xFFC9D69A, 0xFF8BA35A, 0xFF3E5C38, 0xFF1E2A1E}};
@@ -20,7 +18,7 @@ Registry& registry() {
     return r;
 }
 
-} // namespace
+}
 
 Palette::Palette(std::initializer_list<Rgba> shades) {
     if (shades.size() != 4) throw ContractViolation("Palette needs exactly 4 shades");
@@ -49,4 +47,4 @@ const Palette& Palette::preset(std::string_view name) {
 
 const std::vector<std::string>& Palette::presetNames() { return registry().names; }
 
-} // namespace nb::gfx
+}

@@ -1,6 +1,5 @@
 #include "TestHarness.hpp"
 
-#include "core/Math.hpp"
 #include "core/Random.hpp"
 #include "core/Rect.hpp"
 #include "core/Vec2.hpp"
@@ -35,14 +34,6 @@ TEST("Rect contains and intersection") {
     CHECK(!r.contains({15, 10}));
     CHECK((r & Rect(12, 12, 10, 10)) == Rect(12, 12, 3, 3));
     CHECK((r & Rect(0, 0, 5, 5)).empty());
-}
-
-TEST("Math helpers") {
-    CHECK(nb::approach(0, 10, 3) == 3);
-    CHECK(nb::approach(9, 10, 3) == 10);
-    CHECK(nb::approach(10, 0, 4) == 6);
-    CHECK(nb::clampTo(15, 0, 10) == 10);
-    CHECK(nb::lerp(0.0f, 10.0f, 0.5f) == 5.0f);
 }
 
 TEST("Random is deterministic and state round-trips") {

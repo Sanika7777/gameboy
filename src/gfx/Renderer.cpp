@@ -4,12 +4,10 @@
 #include <cstdlib>
 
 namespace nb::gfx {
-
 namespace {
-
 constexpr int kBayer[4][4] = {{0, 8, 2, 10}, {12, 4, 14, 6}, {3, 11, 1, 9}, {15, 7, 13, 5}};
 
-} // namespace
+}
 
 Renderer::Renderer(PixelBuffer& target) : target_(target), clip_(target.width(), target.height()) {}
 
@@ -34,7 +32,6 @@ void Renderer::pixel(Vec2i p, Shade s) { plot(p.x - camera_.x, p.y - camera_.y, 
 void Renderer::line(Vec2i a, Vec2i b, Shade s) {
     a -= camera_;
     b -= camera_;
-    // Bresenham: integer-only, so lines are identical on every platform.
     const int dx = std::abs(b.x - a.x), sx = a.x < b.x ? 1 : -1;
     const int dy = -std::abs(b.y - a.y), sy = a.y < b.y ? 1 : -1;
     int err = dx + dy;
@@ -73,7 +70,6 @@ void Renderer::fill(const Rect& r, Dither d, Shade a, Shade b) {
 
 void Renderer::circle(Vec2i c, int r, Shade s) {
     c -= camera_;
-    // Midpoint circle: eight-way symmetry from one octant.
     int x = r, y = 0, err = 1 - r;
     while (x >= y) {
         plot(c.x + x, c.y + y, s); plot(c.x + y, c.y + x, s);
@@ -90,7 +86,7 @@ void Renderer::fillCircle(Vec2i c, int r, Shade s) {
     c -= camera_;
     for (int dy = -r; dy <= r; ++dy) {
         int dx = 0;
-        while ((dx + 1) * (dx + 1) + dy * dy <= r * r + r) ++dx;   // +r matches the outline's extent
+        while ((dx + 1) * (dx + 1) + dy * dy <= r * r + r) ++dx;
         span(c.x - dx, c.x + dx, c.y + dy, s);
     }
 }
@@ -124,4 +120,4 @@ int Renderer::text(std::string_view str, Vec2i at, const TextStyle& style) {
     return w;
 }
 
-} // namespace nb::gfx
+}

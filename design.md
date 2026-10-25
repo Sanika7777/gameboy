@@ -545,7 +545,7 @@ public:
 ### 8.2 Game hierarchy (`src/games/`)
 
 ```
-                    Identifiable (id, debugName)
+                    Identifiable (debugName)
                      ▲ virtual          ▲ virtual
               IUpdatable             IDrawable
                      ▲                   ▲
@@ -689,18 +689,16 @@ std::exception
  │    └── nb::Error                  code(), context() — short what() for a 26-column screen
  │         ├── nb::PlatformError     SDL init, canvas, audio device
  │         ├── nb::AssetError
- │         │    ├── nb::FileNotFoundError
  │         │    └── nb::ParseError   file(), line(), column()
  │         ├── nb::SaveError
  │         │    ├── nb::CorruptSaveError       bad magic or CRC
  │         │    └── nb::VersionMismatchError   newer format than we understand
- │         └── nb::GameError
- │              └── nb::UnknownGameError
+ │         └── nb::UnknownGameError
  └── std::logic_error
       └── nb::ContractViolation      programmer error: bad arguments, misuse
 ```
 
-Also expected from the standard library: `std::out_of_range` (`Grid::at`, `PixelBuffer::at`),
+Also expected from the standard library: `std::out_of_range` (`PixelBuffer::at`),
 `std::bad_alloc` (caught only at the top level).
 
 ### 9.2 Where exceptions are caught
@@ -709,7 +707,7 @@ Also expected from the standard library: `std::out_of_range` (`Grid::at`, `Pixel
 |--------------------------|---------------------------------|---------------------------------------------|
 | `main()` start-up        | `PlatformError`, `std::exception` | message to console; nothing else can run  |
 | `App::frame()`           | `nb::Error`, `std::exception`   | `ErrorScene`; app keeps running             |
-| `GameScene` start-up     | `AssetError`                    | rethrown via `std::throw_with_nested(GameError{"Can't start SILVERBALL"})` |
+| `GameScene` start-up     | `AssetError`                    | rethrown via `std::throw_with_nested(Error{"Can't start SILVERBALL"})` |
 | Save/settings load       | `SaveError`                     | recover (§9.4), show a Toast                |
 | Audio callback           | everything                      | `noexcept`; never throws, outputs silence on internal failure |
 
@@ -1048,7 +1046,7 @@ coverage; the phase is where it first appears.
 | RTTI, `dynamic_cast`                | `ErrorScene` extracting `ParseError` details                | 4     |
 | Function overloading                | `Renderer::fill`, `Renderer::draw`                          | 1     |
 | Operator overloading                | `Vec2` arithmetic/`<=>`/`<<`, `Rect::operator&`, `Grid::operator()`, `BinaryWriter::operator<<`, `ListView` `operator++` | 1, 3, 4, 6 |
-| Function templates                  | `lerp`, `approach`, `clampTo`                               | 1     |
+| Function templates                  | `scenes::fmt`                                                | 1     |
 | Class templates                     | `Vec2<T>`, `Grid<T>`, `Signal<Args...>`, `RingBuffer<T,N>`  | 1–6   |
 | Full / partial specialization       | `IniFile::get<bool>`, `Serializer<std::string>` / `Serializer<std::vector<T>>`, `std::hash<Vec2i>` | 3, 6 |
 | Variadic templates, fold expressions | `Log::write`, `Signal`, `overloaded`                       | 1, 2, 4 |

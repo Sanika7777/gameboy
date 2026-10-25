@@ -10,11 +10,9 @@
 #endif
 
 namespace {
-
-// Never on main()'s stack: on the web, emscripten_set_main_loop_arg(..., true) unwinds main.
 std::unique_ptr<nb::App> app;
 
-} // namespace
+}
 
 int main(int, char**) {
     nb::io::Paths::configure(nb::platform::SdlPlatform::assetDir(), nb::platform::SdlPlatform::saveDir());

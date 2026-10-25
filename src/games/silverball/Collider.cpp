@@ -3,9 +3,8 @@
 #include <algorithm>
 
 namespace nb::games::silverball {
-
-void Ball::update(Seconds dt) {
-    const float t = dt.asFloat();
+void Ball::update(double dt) {
+    const float t = dt;
     vel.y += gravity * t;
     const float speed = length(vel);
     if (speed > kMaxSpeed) vel = vel * (kMaxSpeed / speed);
@@ -36,7 +35,6 @@ std::optional<Contact> SegmentCollider::test(const Ball& ball) const {
     const float dist = length(d);
     const float reach = thick_ + Ball::kRadius;
     if (dist >= reach) return std::nullopt;
-    // Ball centre exactly on the line: push out along the segment's normal.
     const Vec2f n = dist > 1e-4f ? d * (1.0f / dist) : Vec2f{-ab.y, ab.x} * (1.0f / std::sqrt(len2));
     return Contact{n, reach - dist, q, {}};
 }
@@ -55,10 +53,9 @@ void FlipperCollider::setAngle(float angle, float angularVel) noexcept {
 std::optional<Contact> FlipperCollider::test(const Ball& b) const {
     auto c = SegmentCollider::test(b);
     if (!c) return c;
-    // Velocity of the flipper surface at the contact point: ω × r.
     const float r = length(c->point - pivot_);
     c->surfaceVel = Vec2f{-side_ * std::sin(angle_), std::cos(angle_)} * (r * angularVel_);
     return c;
 }
 
-} // namespace nb::games::silverball
+}

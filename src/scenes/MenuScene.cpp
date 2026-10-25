@@ -10,13 +10,12 @@
 #include <numeric>
 
 namespace nb::scenes {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
 using input::Button;
 
-MenuScene::MenuScene(Services& s) : s_(s), icons_(s.assets.sprites("sprites/icons.spr")) {
+MenuScene::MenuScene(Services& s) : s_(s), icons_(gfx::SpriteSheet::load(io::Paths::asset("sprites/icons.spr"))) {
     order_.resize(s_.registry.catalog().size());
     std::iota(order_.begin(), order_.end(), 0);
 }
@@ -24,7 +23,6 @@ MenuScene::MenuScene(Services& s) : s_(s), icons_(s.assets.sprites("sprites/icon
 const std::string& MenuScene::currentId() const { return s_.registry.catalog()[static_cast<std::size_t>(order_.front())].id; }
 
 void MenuScene::refresh() {
-    // Best score per cartridge across all its modes, refreshed whenever the menu comes back.
     best_.assign(s_.registry.catalog().size(), std::nullopt);
     for (std::size_t i = 0; i < best_.size(); ++i) best_[i] = s_.scores.bestFor(s_.registry.catalog()[i].id, s_.registry.catalog()[i].order);
     insertFrames_ = -1;
@@ -37,7 +35,7 @@ void MenuScene::start(bool resume) {
     s_.sfx("insert");
 }
 
-void MenuScene::update(const input::InputState& in, Seconds) {
+void MenuScene::update(const input::InputState& in, double) {
     ++frames_;
     if (insertFrames_ >= 0) {
         if (++insertFrames_ == 28) s_.scenes.push<GameScene>(s_, currentId(), resume_);
@@ -80,23 +78,21 @@ void MenuScene::draw(gfx::Renderer& r) const {
     const auto idx = static_cast<std::size_t>(order_.front());
     const auto& info = s_.registry.catalog()[idx];
 
-    // The cartridge: slides down into the slot once inserted.
     const int slide = insertFrames_ >= 0 ? std::min(insertFrames_, 20) * 3 : 0;
     const Rect cart(40, 18 + slide, 80, 80);
     r.fill(Rect(cart.x + 2, cart.y + 2, cart.w, cart.h), Shade::Dark);
     r.fill(cart, Shade::Light);
     r.rect(cart, Shade::Ink);
-    r.fill(Rect(cart.right() - 8, cart.y, 8, 8), Shade::Paper);   // clipped corner
+    r.fill(Rect(cart.right() - 8, cart.y, 8, 8), Shade::Paper);
     r.line({cart.right() - 8, cart.y}, {cart.right() - 1, cart.y + 7}, Shade::Ink);
     for (int i = 0; i < 5; ++i) r.line({cart.x + 6 + i * 3, cart.y + 3}, {cart.x + 6 + i * 3, cart.y + 8}, Shade::Dark);
     const Rect label(cart.x + 6, cart.y + 14, 68, 60);
     r.fill(label, Shade::Paper);
     r.rect(label, Shade::Ink);
-    r.draw(*icons_, icons_->indexOf(info.id), {label.x + 26, label.y + 8});
+    r.draw(icons_, icons_.indexOf(info.id), {label.x + 26, label.y + 8});
     r.text(info.title, {80, label.y + 32}, TextStyle{}.align(Align::Center));
     r.text(fmt("NB-%02u", static_cast<unsigned>(idx + 1)).data(), {80, label.y + 46}, TextStyle{}.font(gfx::Font::Mini).shade(Shade::Dark).align(Align::Center));
 
-    // Slot lip covers the bottom of the sliding cartridge.
     r.fill(Rect(0, 100, 160, 44), Shade::Paper);
     r.fill(Rect(30, 99, 100, 3), Shade::Ink);
 
@@ -123,4 +119,4 @@ void MenuScene::draw(gfx::Renderer& r) const {
     }
 }
 
-} // namespace nb::scenes
+}

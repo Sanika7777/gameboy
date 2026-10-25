@@ -1,8 +1,5 @@
 #pragma once
 
-// Role: a fixed-cell pixel font loaded from a .fnt file, plus the text style builder.
-// Demonstrates: this and method chaining (TextStyle)
-
 #include "gfx/Shade.hpp"
 
 #include <array>
@@ -12,10 +9,9 @@
 #include <string_view>
 
 namespace nb::gfx {
-
 class BitmapFont {
 public:
-    static BitmapFont load(const std::filesystem::path& file);   // throws AssetError
+    static BitmapFont load(const std::filesystem::path& file);
 
     [[nodiscard]] int glyphWidth() const noexcept { return w_; }
     [[nodiscard]] int glyphHeight() const noexcept { return h_; }
@@ -24,19 +20,17 @@ public:
     [[nodiscard]] int textWidth(std::string_view s) const noexcept {
         return s.empty() ? 0 : static_cast<int>(s.size()) * advance() - 1;
     }
-    // Lower case falls back to upper case; unknown characters draw as '?'.
     [[nodiscard]] bool pixel(char c, int x, int y) const noexcept;
 
 private:
     int w_ = 0, h_ = 0;
-    std::array<std::array<std::uint8_t, 8>, 128> rows_{};   // bit x of rows_[c][y]
+    std::array<std::array<std::uint8_t, 8>, 128> rows_{};
     std::bitset<128> has_;
 };
 
 enum class Font : std::uint8_t { Main, Mini };
 enum class Align : std::uint8_t { Left, Center, Right };
 
-// Fluent builder: TextStyle{}.font(Font::Mini).shade(Shade::Ink).align(Align::Center)
 class TextStyle {
 public:
     TextStyle& font(Font f) noexcept { font_ = f; return *this; }
@@ -56,4 +50,4 @@ private:
     bool inverted_ = false;
 };
 
-} // namespace nb::gfx
+}

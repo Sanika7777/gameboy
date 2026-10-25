@@ -20,7 +20,6 @@ TEST("STACKFALL: every rotation of every piece is valid and four turns return ho
             CHECK(unique.size() == 4u);
             for (const Vec2i c : cells) CHECK(c.x >= 0 && c.y >= 0 && c.x < n && c.y < n);
         }
-        // Rotating state 3 once more gives state 0's cell set again.
         const auto& s3 = kShapes[static_cast<std::size_t>(k)][3];
         std::set<Vec2i> back;
         for (const Vec2i c : s3) back.insert({n - 1 - c.y, c.x});
@@ -32,7 +31,6 @@ TEST("STACKFALL: every rotation of every piece is valid and four turns return ho
 TEST("STACKFALL wall kicks at both edges") {
     nbtest::TestWorld w;
     StackfallGame g(w.ctx);
-    // Vertical I against the left wall: rotating it flat needs a kick to the right.
     A::place(g, Kind::I, 1, {-2, 8});
     CHECK(A::rotate(g, 1));
     CHECK(A::pos(g).x >= 0);
@@ -46,7 +44,6 @@ TEST("STACKFALL 7-bag contains each piece once per bag") {
     nbtest::TestWorld w(5);
     StackfallGame g(w.ctx);
     for (int bag = 0; bag < 5; ++bag) {
-        // The constructor already drew some; align to a bag boundary first.
         std::set<int> seen;
         std::vector<int> drawn;
         for (int i = 0; i < 7; ++i) drawn.push_back(static_cast<int>(A::draw(g)));
@@ -55,10 +52,8 @@ TEST("STACKFALL 7-bag contains each piece once per bag") {
     }
     nbtest::TestWorld w2(9);
     StackfallGame h(w2.ctx);
-    // Drain the partial bag, then check two full bags.
     std::vector<int> all;
     for (int i = 0; i < 7 * 3; ++i) all.push_back(static_cast<int>(A::draw(h)));
-    // Find the boundary: the constructor consumed 4 draws (3 queued + 1 current).
     for (int b = 0; b < 2; ++b) {
         std::set<int> bagSet(all.begin() + 3 + b * 7, all.begin() + 3 + (b + 1) * 7);
         CHECK(bagSet.size() == 7u);
@@ -76,7 +71,7 @@ TEST("STACKFALL scoring for 1-4 lines") {
     for (int y = 18; y < 22; ++y)
         for (int x = 0; x < 10; ++x)
             if (x != 4) b(x, y) = 1;
-    A::place(g, Kind::I, 1, {2, 18});   // vertical I in column 4
+    A::place(g, Kind::I, 1, {2, 18});
     A::lock(g);
     A::finishClear(g);
     CHECK(A::lines(g) == 4);

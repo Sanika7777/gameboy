@@ -1,9 +1,5 @@
 #pragma once
 
-// Role: little-endian binary encoding for save files, plus CRC32 and atomic file writes.
-// Demonstrates: full and partial template specialization (Serializer); operator overloading (<<, >>);
-//               binary file I/O; std::filesystem
-
 #include "core/Error.hpp"
 
 #include <array>
@@ -17,17 +13,14 @@
 #include <vector>
 
 namespace nb::io {
-
 [[nodiscard]] std::uint32_t crc32(std::span<const std::uint8_t> bytes) noexcept;
 
-// Writes to `<path>.tmp` then renames over `path`, so a crash never leaves half a file.
 void atomicWrite(const std::filesystem::path& path, std::span<const std::uint8_t> bytes);
-[[nodiscard]] std::vector<std::uint8_t> readAll(const std::filesystem::path& path);   // throws FileNotFoundError
+[[nodiscard]] std::vector<std::uint8_t> readAll(const std::filesystem::path& path);
 
 class BinaryWriter;
 class BinaryReader;
 
-// Primary template: integers, floats, bools and enums, always little-endian on disk.
 template<class T>
 struct Serializer {
     static_assert(std::is_arithmetic_v<T> || std::is_enum_v<T>, "no Serializer for this type");
@@ -47,7 +40,6 @@ public:
     }
 
     [[nodiscard]] const std::vector<std::uint8_t>& data() const noexcept { return buf_; }
-    // Appends the CRC32 of everything so far.
     void sealWithCrc() { *this << crc32(buf_); }
 
 private:
@@ -82,7 +74,6 @@ public:
 
     [[nodiscard]] std::size_t remaining() const noexcept { return data_.size() - pos_; }
 
-    // Checks the trailing CRC32 and strips it from the readable range.
     void verifyCrc();
 
 private:
@@ -131,7 +122,6 @@ void Serializer<T>::read(BinaryReader& r, T& v) {
     }
 }
 
-// Full specialization: length-prefixed string.
 template<>
 struct Serializer<std::string> {
     static void write(BinaryWriter& w, const std::string& s) {
@@ -145,7 +135,6 @@ struct Serializer<std::string> {
     }
 };
 
-// Partial specializations: containers of anything serializable.
 template<class T>
 struct Serializer<std::vector<T>> {
     static void write(BinaryWriter& w, const std::vector<T>& v) {
@@ -154,7 +143,7 @@ struct Serializer<std::vector<T>> {
     }
     static void read(BinaryReader& r, std::vector<T>& v) {
         const auto n = r.get<std::uint32_t>();
-        if (n > r.remaining()) throw CorruptSaveError("SAVE TRUNCATED");   // no huge bogus allocations
+        if (n > r.remaining()) throw CorruptSaveError("SAVE TRUNCATED");
         v.resize(n);
         for (auto& e : v) r >> e;
     }
@@ -170,4 +159,4 @@ struct Serializer<std::array<T, N>> {
     }
 };
 
-} // namespace nb::io
+}

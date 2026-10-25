@@ -1,14 +1,10 @@
 #pragma once
 
-// Role: integer axis-aligned rectangle for clipping, hit zones and layout.
-// Demonstrates: delegating constructor; constexpr constructors; operator overloading
-
 #include "core/Vec2.hpp"
 
 #include <algorithm>
 
 namespace nb {
-
 struct Rect {
     int x = 0, y = 0, w = 0, h = 0;
 
@@ -22,7 +18,6 @@ struct Rect {
     [[nodiscard]] constexpr bool contains(Vec2i p) const {
         return p.x >= x && p.y >= y && p.x < right() && p.y < bottom();
     }
-    // Intersection; empty Rect{} when the two don't overlap.
     [[nodiscard]] constexpr Rect operator&(const Rect& o) const {
         const int l = std::max(x, o.x), t = std::max(y, o.y);
         const int r = std::min(right(), o.right()), b = std::min(bottom(), o.bottom());
@@ -31,4 +26,4 @@ struct Rect {
     constexpr bool operator==(const Rect&) const = default;
 };
 
-} // namespace nb
+}

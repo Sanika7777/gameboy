@@ -1,9 +1,7 @@
 #include "input/InputSources.hpp"
 
 namespace nb::input {
-
 namespace {
-
 std::optional<Button> buttonFor(Key k) noexcept {
     switch (k) {
     case Key::Up: case Key::W: return Button::Up;
@@ -18,7 +16,7 @@ std::optional<Button> buttonFor(Key k) noexcept {
     }
 }
 
-} // namespace
+}
 
 void KeyboardSource::handle(const PlatformEvent& e) {
     const auto* k = std::get_if<KeyEvent>(&e);
@@ -44,7 +42,7 @@ void TouchSource::handle(const PlatformEvent& e) {
         return;
     }
     if (!f) {
-        if (t->phase != PointerPhase::Down || !(f = find(-1))) return;   // all 10 slots busy
+        if (t->phase != PointerPhase::Down || !(f = find(-1))) return;
         f->id = t->id;
     }
     const Hit h = hits_.hit(t->phys);
@@ -56,8 +54,6 @@ void TouchSource::handle(const PlatformEvent& e) {
             gestures_.move(*h.lcd);
         }
     }
-    // Sliding off one button onto another re-targets the finger; the D-pad centre keeps
-    // the last direction so a rolling thumb doesn't flicker to "nothing".
     if (h.dpadDeadZone) return;
     if (!f->onLcd || !h.lcd) f->button = h.button;
 }
@@ -88,4 +84,4 @@ void MouseSource::handle(const PlatformEvent& e) {
     if (!h.dpadDeadZone && !onLcd_) button_ = h.button;
 }
 
-} // namespace nb::input
+}

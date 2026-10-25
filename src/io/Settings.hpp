@@ -1,21 +1,18 @@
 #pragma once
 
-// Role: the user's settings, persisted in settings.ini.
-
 #include "io/IPersistence.hpp"
 
 #include <filesystem>
 #include <string>
 
 namespace nb::io {
-
 struct SettingsValues {
     std::string palette = "moss";
     std::string caseTheme = "brick";
-    std::string lcdEffect = "none";       // none | ghosting | grid
-    int volume = 5;                       // 0-7
+    std::string lcdEffect = "none";
+    int volume = 5;
     bool haptics = true;
-    std::string layout = "auto";          // auto | portrait | landscape
+    std::string layout = "auto";
     bool leftHanded = false;
     bool reduceFlashing = false;
 
@@ -27,10 +24,8 @@ public:
     Settings(std::filesystem::path file, IPersistence& persistence)
         : file_(std::move(file)), persistence_(persistence) {}
 
-    // Missing file → defaults; bad lines are skipped and logged (design §9.4).
     void load();
     [[nodiscard]] const SettingsValues& get() const noexcept { return values_; }
-    // Strong guarantee: the file is written first; values change only if that succeeded.
     void apply(SettingsValues next);
 
 private:
@@ -39,4 +34,4 @@ private:
     SettingsValues values_;
 };
 
-} // namespace nb::io
+}

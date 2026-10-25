@@ -20,7 +20,7 @@ TEST("FLAPWING gravity and flap stay within bounds") {
     bird.pos = {40, -5};
     bird.flap();
     for (int i = 0; i < 5; ++i) bird.update(kStep);
-    CHECK(bird.pos.y >= -8.0f);   // the ceiling holds
+    CHECK(bird.pos.y >= -8.0f);
 }
 
 TEST("FLAPWING recycles pipes and keeps a constant count") {
@@ -29,7 +29,6 @@ TEST("FLAPWING recycles pipes and keeps a constant count") {
     A::fly(g);
     input::InputState in;
     for (int f = 0; f < 60 * 20; ++f) {
-        // Keep the bird hovering in the middle so it never crashes.
         A::bird(g).pos.y = static_cast<float>(A::pipes(g).front().gapY - 4);
         A::bird(g).vel.y = 0;
         for (auto& p : A::pipes(g)) p.gapY = 64, p.gap = 60;

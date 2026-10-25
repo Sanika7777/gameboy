@@ -1,10 +1,5 @@
 #pragma once
 
-// Role: MINEFIELD, mine sweeping with direct touch on cells (design §11.2).
-// Demonstrates: std::set (flags, ordered by Vec2's <=>); BFS with std::queue; std::iota + std::shuffle;
-//               std::count_if; Strategy (LowerIsBetter score order)
-
-#include "core/Counted.hpp"
 #include "core/Grid.hpp"
 #include "games/GridGame.hpp"
 
@@ -14,7 +9,6 @@
 #include <vector>
 
 namespace nb::games::minefield {
-
 enum class Difficulty : std::uint8_t { Rookie, Veteran, Expert };
 
 struct Spec {
@@ -30,7 +24,7 @@ inline constexpr std::array<Spec, 3> kSpecs{{
     {"EXPERT", "minefield.expert", {30, 16}, 99},
 }};
 
-class MinefieldGame final : public GridGame, private Counted<MinefieldGame> {
+class MinefieldGame final : public GridGame {
 public:
     explicit MinefieldGame(GameContext& ctx);
 
@@ -51,7 +45,7 @@ public:
 
 protected:
     void handleInput(const input::InputState& in) override;
-    void updateWorld(Seconds dt) override;
+    void updateWorld(double dt) override;
     void drawWorld(gfx::Renderer& r) const override;
     void drawHud(gfx::Renderer& r) const override;
 
@@ -73,9 +67,9 @@ private:
     void layout();
     [[nodiscard]] int flagsAround(Vec2i c) const;
 
-    std::shared_ptr<const gfx::SpriteSheet> sprites_;
+    gfx::SpriteSheet sprites_;
     Grid<Cell> cells_;
-    std::set<Vec2i> flags_;   // ordered set: deterministic iteration, Vec2's <=> is the key order
+    std::set<Vec2i> flags_;
     std::vector<Vec2i> mines_;
     Difficulty diff_ = Difficulty::Rookie;
     State state_ = State::Setup;
@@ -87,4 +81,4 @@ private:
     friend class nb::games::GameTestAccess;
 };
 
-} // namespace nb::games::minefield
+}

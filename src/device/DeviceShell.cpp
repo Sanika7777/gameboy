@@ -4,9 +4,7 @@
 #include <cmath>
 
 namespace nb::device {
-
 namespace {
-
 using gfx::Rgba;
 using input::Button;
 
@@ -18,7 +16,6 @@ constexpr std::array<CaseTheme, 5> kThemes{{
     {"night", 0xFF2A2D35, 0xFF17191E, 0xFF40444F, 0xFF101114, 0xFF050506, 0xFF4C5260, 0xFF2C3038, 0xFFA9B0C0, false},
 }};
 
-// Small painter for the true-colour face; LCD drawing goes through gfx::Renderer instead.
 class Painter {
 public:
     explicit Painter(gfx::RgbaSurface& s) : s_(s) {}
@@ -55,7 +52,7 @@ private:
 
 int floorDiv(int a, int b) { return a >= 0 ? a / b : -((-a + b - 1) / b); }
 
-} // namespace
+}
 
 std::vector<std::string> DeviceShell::themeNames() {
     std::vector<std::string> out;
@@ -108,15 +105,12 @@ void DeviceShell::redraw() {
     Painter p(face_);
     const Vec2i size = vp_.surface;
 
-    // Case body.
     for (int y = 0; y < size.y; ++y)
         for (int x = 0; x < size.x; ++x)
             face_(x, y) = (t.dithered && ((x + y) & 1)) ? t.light : t.body;
     p.fill(Rect(0, 0, size.x, 1), t.light);
     p.fill(Rect(0, size.y - 2, size.x, 2), t.shadow);
 
-    // Bezel, inner rim, LED.
-    // Landscape keeps a thinner bottom lip so SELECT/START fit under it.
     const Rect bezel(lcd_.x - 6, lcd_.y - 8, 172, layout_->isPortrait() ? 164 : 157);
     p.fill(Rect(bezel.x + 1, bezel.y + 1, bezel.w, bezel.h), t.shadow);
     p.fill(bezel, t.bezel);
@@ -124,7 +118,6 @@ void DeviceShell::redraw() {
     p.circle({bezel.x + 5, bezel.y + 4}, 1, led_ ? 0xFFFF3B30 : 0xFF4A1A1A);
     p.text(mini_, "PWR", {bezel.x + 9, bezel.y + 2}, t.label == t.bezel ? t.light : 0xFF8A8A9A);
 
-    // Wordmark.
     const std::string_view mark = "N E O B R I C K";
     const int markW = static_cast<int>(mark.size()) * mini_.advance();
     if (layout_->isPortrait()) {
@@ -136,7 +129,6 @@ void DeviceShell::redraw() {
 
     auto held = [&](Button b) { return pressed_.test(input::bit(b)); };
 
-    // D-pad: shadow, cross, pressed arm darker and 1 px lower.
     const Vec2i d = mirror(controls_.dpad);
     p.fill(Rect(d.x - 19, d.y - 5, 39, 13), t.shadow);
     p.fill(Rect(d.x - 6, d.y - 18, 13, 39), t.shadow);
@@ -149,7 +141,6 @@ void DeviceShell::redraw() {
         if (held(arm.b)) p.fill(Rect(arm.r.x, arm.r.y + 1, arm.r.w, arm.r.h), t.buttonDown);
     p.circle(d, 3, t.buttonDown);
 
-    // A / B.
     auto round = [&](Vec2i c, Button b, std::string_view label) {
         c = mirror(c);
         const bool down = held(b);
@@ -160,7 +151,6 @@ void DeviceShell::redraw() {
     round(controls_.a, Button::A, "A");
     round(controls_.b, Button::B, "B");
 
-    // SELECT / START pills (not mirrored: they sit centred).
     auto pill = [&](Rect r, Button b, std::string_view label, bool labelLeft) {
         const bool down = held(b);
         if (!down) p.pill(Rect(r.x, r.y + 1, r.w, r.h), t.shadow);
@@ -172,7 +162,6 @@ void DeviceShell::redraw() {
     pill(controls_.select, Button::Select, "SELECT", true);
     pill(controls_.start, Button::Start, "START", false);
 
-    // Speaker slots.
     const Vec2i sp = layout_->isPortrait() ? mirror({150, size.y - 26}) : Vec2i{size.x - 40, 160};
     for (int i = 0; i < 4; ++i)
         for (int k = 0; k < 10; ++k) p.put(sp.x + i * 5 + k / 2, sp.y + k, t.shadow);
@@ -187,7 +176,6 @@ input::Hit DeviceShell::hit(Vec2i phys) const {
     }
     auto dist2 = [](Vec2i a, Vec2i b) { return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y); };
 
-    // D-pad: direction from the angle, four 90° sectors; dead zone keeps the last direction.
     const Vec2i d = mirror(controls_.dpad);
     if (const int r2 = dist2(s, d); r2 <= 30 * 30) {
         if (r2 < 5 * 5) {
@@ -199,18 +187,16 @@ input::Hit DeviceShell::hit(Vec2i phys) const {
         else h.button = dy > 0 ? Button::Down : Button::Up;
         return h;
     }
-    // A/B: generous circles, nearest wins.
     const Vec2i a = mirror(controls_.a), b = mirror(controls_.b);
     const int da = dist2(s, a), db = dist2(s, b);
     if (std::min(da, db) <= 17 * 17) {
         h.button = da <= db ? Button::A : Button::B;
         return h;
     }
-    // Pills: 32×20 zones around the drawn shape.
     auto zone = [](Rect r) { return Rect(r.x + r.w / 2 - 16, r.y + r.h / 2 - 10, 32, 20); };
     if (zone(controls_.select).contains(s)) h.button = Button::Select;
     else if (zone(controls_.start).contains(s)) h.button = Button::Start;
     return h;
 }
 
-} // namespace nb::device
+}

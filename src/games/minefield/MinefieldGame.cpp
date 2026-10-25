@@ -7,7 +7,6 @@
 #include <queue>
 
 namespace nb::games::minefield {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
@@ -19,7 +18,7 @@ const GameInfo& MinefieldGame::staticInfo() {
 }
 
 MinefieldGame::MinefieldGame(GameContext& ctx)
-    : GridGame(ctx, {9, 9}, 8, {44, 44}), sprites_(ctx.assets.sprites("sprites/minefield.spr")) {
+    : GridGame(ctx, {9, 9}, 8, {44, 44}), sprites_(gfx::SpriteSheet::load(io::Paths::asset("sprites/minefield.spr"))) {
     mines_.reserve(99);
 }
 
@@ -49,7 +48,6 @@ void MinefieldGame::layout() {
         setGeometry(size, 8, {(160 - size.x * 8) / 2, 16 + (128 - size.y * 8) / 2});
         return;
     }
-    // Expert is wider than the LCD: scroll horizontally to keep the cursor in view.
     const int cx = cursor_.x * 8 - scroll_;
     if (cx < 16) scroll_ = cursor_.x * 8 - 16;
     if (cx > 160 - 24) scroll_ = cursor_.x * 8 - (160 - 24);
@@ -58,7 +56,6 @@ void MinefieldGame::layout() {
 }
 
 void MinefieldGame::placeMines(Vec2i safe) {
-    // Every cell index, minus the 3×3 around the first click, shuffled; the first N become mines.
     std::vector<int> candidates(static_cast<std::size_t>(cells_.width() * cells_.height()));
     std::iota(candidates.begin(), candidates.end(), 0);
     std::erase_if(candidates, [&](int i) {
@@ -81,7 +78,6 @@ void MinefieldGame::placeMines(Vec2i safe) {
 }
 
 void MinefieldGame::flood(Vec2i start) {
-    // Breadth-first: open this cell, and keep spreading through cells with no adjacent mines.
     std::queue<Vec2i> open;
     open.push(start);
     while (!open.empty()) {
@@ -126,7 +122,6 @@ int MinefieldGame::flagsAround(Vec2i c) const {
 }
 
 void MinefieldGame::chord(Vec2i c) {
-    // A revealed number whose flags are all placed: open every other neighbour at once.
     const Cell& cell = cells_(c);
     if (!cell.revealed || cell.adjacent == 0 || flagsAround(c) != cell.adjacent) return;
     for (const Vec2i n : cells_.neighbours(c))
@@ -169,7 +164,6 @@ void MinefieldGame::handleInput(const input::InputState& in) {
     }
     if (state_ != State::Ready && state_ != State::Playing) return;
 
-    // D-pad with auto-repeat: first press moves at once, holding repeats every 4 frames.
     const Vec2i dir{in.held(Button::Right) - in.held(Button::Left), in.held(Button::Down) - in.held(Button::Up)};
     const bool fresh = in.pressed(Button::Left) || in.pressed(Button::Right) || in.pressed(Button::Up) || in.pressed(Button::Down);
     if (dir == Vec2i{0, 0}) heldFrames_ = 0;
@@ -191,10 +185,9 @@ void MinefieldGame::handleInput(const input::InputState& in) {
     }
 }
 
-void MinefieldGame::updateWorld(Seconds dt) {
-    if (state_ == State::Playing) elapsed_ += dt.count();
+void MinefieldGame::updateWorld(double dt) {
+    if (state_ == State::Playing) elapsed_ += dt;
     if (state_ == State::Lost) {
-        // Reveal the remaining mines one every 3 frames, then end.
         ++endFrames_;
         if (endFrames_ % 3 == 0)
             for (const Vec2i m : mines_)
@@ -237,7 +230,7 @@ void MinefieldGame::drawWorld(gfx::Renderer& r) const {
                 r.line({b.x, b.bottom() - 1}, {b.right() - 1, b.bottom() - 1}, Shade::Dark);
                 r.line({b.right() - 1, b.y}, {b.right() - 1, b.bottom() - 1}, Shade::Dark);
                 if (flags_.contains(c)) {
-                    r.draw(sprites_->get("flag"), {b.x, b.y});
+                    r.draw(sprites_.get("flag"), {b.x, b.y});
                     if (lost && !cell.mine) r.line({b.x + 1, b.y + 1}, {b.x + 6, b.y + 6}, Shade::Ink);
                 }
                 continue;
@@ -246,7 +239,7 @@ void MinefieldGame::drawWorld(gfx::Renderer& r) const {
             r.line({b.x, b.bottom() - 1}, {b.right() - 1, b.bottom() - 1}, Shade::Light);
             r.line({b.right() - 1, b.y}, {b.right() - 1, b.bottom() - 1}, Shade::Light);
             if (cell.mine) {
-                r.draw(sprites_->get("mine"), {b.x, b.y});
+                r.draw(sprites_.get("mine"), {b.x, b.y});
             } else if (cell.adjacent > 0) {
                 const char digit[2] = {static_cast<char>('0' + cell.adjacent), '\0'};
                 r.text(digit, {b.x + 2, b.y + 1}, TextStyle{}.font(gfx::Font::Mini).shade(cell.adjacent > 2 ? Shade::Ink : Shade::Dark));
@@ -274,7 +267,7 @@ void MinefieldGame::drawHud(gfx::Renderer& r) const {
     r.text(buf, {138, 4}, TextStyle{}.shade(Shade::Paper));
     const char* face = state_ == State::Won || (state_ == State::Over && boom_.x < 0) ? "face_cool"
                      : boom_.x >= 0 ? "face_dead" : digging_ ? "face_wow" : "face_smile";
-    r.draw(sprites_->get(face), {75, 2});
+    r.draw(sprites_.get(face), {75, 2});
     r.text(flagMode_ ? "FLAG" : "DIG", {32, 6}, TextStyle{}.font(gfx::Font::Mini).shade(flagMode_ ? Shade::Ink : Shade::Dark));
 }
 
@@ -311,4 +304,4 @@ void MinefieldGame::load(io::BinaryReader& r) {
     layout();
 }
 
-} // namespace nb::games::minefield
+}

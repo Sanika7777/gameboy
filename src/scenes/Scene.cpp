@@ -1,8 +1,7 @@
 #include "scenes/Scene.hpp"
 
 namespace nb::scenes {
-
-void SceneStack::update(const input::InputState& in, Seconds dt) {
+void SceneStack::update(const input::InputState& in, double dt) {
     if (!stack_.empty()) stack_.back()->update(in, dt);
     applyPending();
 }
@@ -15,7 +14,6 @@ void SceneStack::popOne() {
 }
 
 void SceneStack::applyPending() {
-    // Swap out first: onEnter/onExit may queue further requests for next frame.
     auto requests = std::move(pending_);
     pending_.clear();
     pending_.reserve(8);
@@ -39,7 +37,7 @@ void SceneStack::applyPending() {
 
 void SceneStack::resetNow(std::unique_ptr<Scene> s) {
     pending_.clear();
-    stack_.clear();   // no onExit: we're recovering from an exception inside a scene
+    stack_.clear();
     stack_.push_back(std::move(s));
     stack_.back()->onEnter();
     changed_ = true;
@@ -47,10 +45,9 @@ void SceneStack::resetNow(std::unique_ptr<Scene> s) {
 
 void SceneStack::draw(gfx::Renderer& r) const {
     if (stack_.empty()) return;
-    // Overlays show the scene beneath them: start from the highest non-overlay.
     std::size_t first = stack_.size() - 1;
     while (first > 0 && stack_[first]->isOverlay()) --first;
     for (std::size_t i = first; i < stack_.size(); ++i) stack_[i]->draw(r);
 }
 
-} // namespace nb::scenes
+}

@@ -11,16 +11,11 @@
 #include <fstream>
 
 namespace nb::platform {
-
 namespace {
-
 constexpr const char* kDb = "neobrick";
-// Every file the app may write; restored into /save at boot.
 constexpr std::array<const char*, 7> kFiles{"settings.ini", "scores.dat", "serpent.sav", "minefield.sav",
                                             "stackfall.sav", "flapwing.sav", "silverball.sav"};
 
-// Mirrors /save (in-memory) to IndexedDB with Emscripten's C API.
-// Demonstrates: pure virtual / abstract classes (second IPersistence implementation)
 class WebPersistence final : public io::IPersistence {
 public:
     void restoreAll(std::function<void()> done) override {
@@ -30,7 +25,6 @@ public:
             requests_[i] = {this, kFiles[i]};
             emscripten_idb_async_load(kDb, kFiles[i], &requests_[i], &onLoad, &onMissing);
         }
-        // Private browsing can make IndexedDB hang: never wait more than 1.5 s.
         emscripten_async_call([](void* self) { static_cast<WebPersistence*>(self)->finish(); }, this, 1500);
     }
 
@@ -73,21 +67,20 @@ private:
 
     std::function<void()> done_;
     int pending_ = 0;
-    std::array<Request, kFiles.size()> requests_{};   // C callback contexts, one per file
+    std::array<Request, kFiles.size()> requests_{};
 };
 
-} // namespace
+}
 
 std::unique_ptr<io::IPersistence> SdlPlatform::makePersistence() { return std::make_unique<WebPersistence>(); }
 
-} // namespace nb::platform
+}
 
 #else
 
 namespace nb::platform {
-
 std::unique_ptr<io::IPersistence> SdlPlatform::makePersistence() { return std::make_unique<io::NativePersistence>(); }
 
-} // namespace nb::platform
+}
 
 #endif

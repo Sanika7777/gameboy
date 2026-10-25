@@ -1,18 +1,13 @@
 #pragma once
 
-// Role: the chip synthesizer's voices and their volume envelope.
-// Demonstrates: virtual functions and override (Channel::sample); hierarchical inheritance; noexcept
-
 #include "audio/Sfx.hpp"
 
 #include <array>
 #include <cstdint>
 
 namespace nb::audio {
-
 inline constexpr float kSampleRate = 22050.0f;
 
-// Attack / decay / sustain / release, timed in 1/64-second ticks like the old chips.
 class Envelope {
 public:
     static constexpr float kTick = kSampleRate / 64.0f;
@@ -37,15 +32,12 @@ public:
     virtual ~Channel() = default;
     void start(const SfxDef& d) noexcept;
     [[nodiscard]] bool active() const noexcept { return !env_.idle(); }
-    void stop() noexcept { env_.noteOff(); }
-    // One output sample in -1..1 (already scaled by the envelope and the sfx volume).
     [[nodiscard]] float render() noexcept;
 
 protected:
-    // The raw waveform, -1..1, advancing one sample.
     [[nodiscard]] virtual float sample() noexcept = 0;
     virtual void onStart(const SfxDef&) noexcept {}
-    [[nodiscard]] float advancePhase() noexcept;   // returns phase in [0, 1)
+    [[nodiscard]] float advancePhase() noexcept;
 
     float freq_ = 440, freqStep_ = 0, phase_ = 0;
 
@@ -64,7 +56,6 @@ private:
     float duty_ = 0.5f;
 };
 
-// 32 steps of 4-bit samples, like a programmable wave channel.
 class WaveChannel final : public Channel {
 public:
     WaveChannel() noexcept;
@@ -87,4 +78,4 @@ private:
     float clock_ = 0;
 };
 
-} // namespace nb::audio
+}

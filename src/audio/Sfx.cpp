@@ -3,7 +3,6 @@
 #include "io/TextReader.hpp"
 
 namespace nb::audio {
-
 SfxLibrary SfxLibrary::load(const std::filesystem::path& file) {
     io::TextReader r(file);
     SfxLibrary lib;
@@ -41,4 +40,4 @@ const SfxDef* SfxLibrary::find(std::string_view name) const {
     return it == defs_.end() ? nullptr : &it->second;
 }
 
-} // namespace nb::audio
+}

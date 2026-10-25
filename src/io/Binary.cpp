@@ -4,9 +4,7 @@
 #include <iterator>
 
 namespace nb::io {
-
 namespace {
-
 constexpr std::array<std::uint32_t, 256> makeCrcTable() {
     std::array<std::uint32_t, 256> t{};
     for (std::uint32_t i = 0; i < 256; ++i) {
@@ -19,7 +17,7 @@ constexpr std::array<std::uint32_t, 256> makeCrcTable() {
 
 constexpr auto kCrcTable = makeCrcTable();
 
-} // namespace
+}
 
 std::uint32_t crc32(std::span<const std::uint8_t> bytes) noexcept {
     std::uint32_t c = 0xFFFFFFFFu;
@@ -44,7 +42,7 @@ void atomicWrite(const std::filesystem::path& path, std::span<const std::uint8_t
 
 std::vector<std::uint8_t> readAll(const std::filesystem::path& path) {
     std::ifstream in(path, std::ios::binary);
-    if (!in) throw FileNotFoundError("FILE NOT FOUND", path.string());
+    if (!in) throw AssetError("FILE NOT FOUND", path.string());
     return {std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
 }
 
@@ -56,4 +54,4 @@ void BinaryReader::verifyCrc() {
     data_ = body;
 }
 
-} // namespace nb::io
+}

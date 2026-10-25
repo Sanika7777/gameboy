@@ -8,7 +8,6 @@
 #include <numeric>
 
 namespace nb::games::silverball {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
@@ -49,7 +48,7 @@ void SilverballGame::newBall() {
     tilted_ = false;
     targetsHit_ = rolloversHit_ = 0;
     ballSaveLit_ = true;
-    ballSaveUntil_ = elapsed_ + 1e9;   // starts counting when the ball is launched
+    ballSaveUntil_ = elapsed_ + 1e9;
     camera_.pos = {0, static_cast<float>(table_.size.y - 144)};
 }
 
@@ -78,7 +77,7 @@ void SilverballGame::rolloverLit() {
         sfx("bonus");
         for (auto* r : table_.rollovers) r->unlight();
     } else {
-        timers_.push({elapsed_ + 20.0, Timer::LightsOut});   // unfinished lanes fade after 20 s
+        timers_.push({elapsed_ + 20.0, Timer::LightsOut});
     }
 }
 
@@ -98,7 +97,6 @@ void SilverballGame::nudge() {
 
 void SilverballGame::handleInput(const input::InputState& in) {
     if (state_ == State::Over || state_ == State::Bonus) return;
-    // Two-thumb touch: holding the left or right half of the LCD works that flipper.
     const auto touch = in.lcdTouch();
     const bool left = in.held(Button::Left) || in.held(Button::B) || (touch && touch->x < 80);
     const bool right = in.held(Button::A) || in.held(Button::Right) || (touch && touch->x >= 80);
@@ -115,17 +113,16 @@ void SilverballGame::handleInput(const input::InputState& in) {
 }
 
 void SilverballGame::resolve(TableElement& e, const Contact& c) {
-    ball_->pos += c.normal * c.depth;   // push out of the surface
-    // Bounce relative to the (possibly moving) surface.
+    ball_->pos += c.normal * c.depth;
     const Vec2f rel = ball_->vel - c.surfaceVel;
     const float vn = dot(rel, c.normal);
     if (vn < 0) ball_->vel = rel - c.normal * ((1.0f + e.restitution()) * vn) + c.surfaceVel;
     e.onHit(*ball_, *this, c);
 }
 
-void SilverballGame::simulate(Seconds dt) {
+void SilverballGame::simulate(double dt) {
     if (state_ == State::Over || state_ == State::Bonus) return;
-    elapsed_ += dt.count();
+    elapsed_ += dt;
     for (auto& e : table_.elements) e->update(dt);
     float power = 0;
     if (table_.plunger->released(power) && state_ == State::Launch) {
@@ -154,7 +151,6 @@ void SilverballGame::drained() {
     }
     sfx("drain");
     buzz(40);
-    // End-of-ball bonus: each item's worth, summed, times the multiplier. A tilt forfeits it.
     const std::array<std::uint32_t, 2> items{static_cast<std::uint32_t>(targetsHit_) * 50u,
                                              static_cast<std::uint32_t>(rolloversHit_) * 100u};
     bonus_ = tilted_ ? 0 : std::accumulate(items.begin(), items.end(), 0u) * static_cast<std::uint32_t>(multiplier_);
@@ -163,7 +159,7 @@ void SilverballGame::drained() {
     bonusFrames_ = 0;
 }
 
-void SilverballGame::afterSubsteps(Seconds) {
+void SilverballGame::afterSubsteps(double) {
     if (state_ == State::Bonus && ++bonusFrames_ > 90) {
         if (--balls_ <= 0) {
             state_ = State::Over;
@@ -185,14 +181,13 @@ void SilverballGame::afterSubsteps(Seconds) {
         --p.life;
     }
     sparks_.remove_if([](const Particle& p) { return p.life <= 0; });
-    // Camera follows the ball vertically, smoothed, within the table.
     const float target = std::clamp(ball_->pos.y - 80.0f, 0.0f, static_cast<float>(table_.size.y - 144));
     camera_.follow({0, target}, 0.18f);
 }
 
 void SilverballGame::drawWorld(gfx::Renderer& r) const {
     r.clear(Shade::Paper);
-    r.setCamera(camera_.offset() - Vec2i{0, 8});   // 8-px HUD strip on top
+    r.setCamera(camera_.offset() - Vec2i{0, 8});
     r.setClip(Rect(0, 8, 160, 136));
     for (const auto& e : table_.elements) e->draw(r);
     ball_->draw(r);
@@ -255,4 +250,4 @@ void SilverballGame::load(io::BinaryReader& r) {
     multiplier_ = std::clamp(multiplier_, 1, 5);
 }
 
-} // namespace nb::games::silverball
+}

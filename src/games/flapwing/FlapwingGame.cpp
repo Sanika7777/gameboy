@@ -5,14 +5,13 @@
 #include <cstdio>
 
 namespace nb::games::flapwing {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
 using input::Button;
 
-void Bird::update(Seconds dt) {
-    const float t = dt.asFloat();
+void Bird::update(double dt) {
+    const float t = dt;
     vel.y = std::min(vel.y + Physics::kGravity * t, Physics::kTerminal);
     pos.y += vel.y * t;
     if (pos.y < -8) {
@@ -57,10 +56,10 @@ const GameInfo& FlapwingGame::staticInfo() {
     return info;
 }
 
-FlapwingGame::FlapwingGame(GameContext& ctx) : PhysicsGame(ctx, 2), sprites_(ctx.assets.sprites("sprites/flapwing.spr")) {
+FlapwingGame::FlapwingGame(GameContext& ctx) : PhysicsGame(ctx, 2), sprites_(gfx::SpriteSheet::load(io::Paths::asset("sprites/flapwing.spr"))) {
     auto clouds = std::make_unique<ParallaxLayer>(ParallaxLayer::Look::Clouds, 0.2f, speed_);
     auto hills = std::make_unique<ParallaxLayer>(ParallaxLayer::Look::Hills, 0.5f, speed_);
-    auto bird = std::make_unique<Bird>(*sprites_);
+    auto bird = std::make_unique<Bird>(sprites_);
     auto ground = std::make_unique<ParallaxLayer>(ParallaxLayer::Look::Ground, 1.0f, speed_);
     clouds_ = clouds.get();
     hills_ = hills.get();
@@ -76,7 +75,7 @@ FlapwingGame::FlapwingGame(GameContext& ctx) : PhysicsGame(ctx, 2), sprites_(ctx
 
 void FlapwingGame::resetPipe(PipePair& p, float x) {
     p.x = x;
-    p.gap = 44 - std::min(10, static_cast<int>(score_) / 4);   // narrows from 44 to 34
+    p.gap = 44 - std::min(10, static_cast<int>(score_) / 4);
     p.gapY = ctx_.rng.range(16 + p.gap / 2, Physics::kGround - 12 - p.gap / 2);
     p.scored = false;
 }
@@ -97,7 +96,7 @@ void FlapwingGame::handleInput(const input::InputState& in) {
     if (!flap) return;
     if (state_ == State::Ready) state_ = State::Flying;
     if (state_ != State::Flying) return;
-    bird_->flap();   // same frame as the tap: no input lag
+    bird_->flap();
     sfx("flap");
 }
 
@@ -113,10 +112,10 @@ bool FlapwingGame::collides() const {
     return false;
 }
 
-void FlapwingGame::simulate(Seconds dt) {
+void FlapwingGame::simulate(double dt) {
     switch (state_) {
     case State::Ready:
-        bird_->pos.y = 60 + 3 * std::sin(frames_ * 0.1f);   // idle bob
+        bird_->pos.y = 60 + 3 * std::sin(frames_ * 0.1f);
         clouds_->update(dt);
         hills_->update(dt);
         ground_->update(dt);
@@ -133,15 +132,14 @@ void FlapwingGame::simulate(Seconds dt) {
     }
     for (auto& o : objects_) o->update(dt);
     for (auto& p : pipes_) {
-        p.x -= speed_ * dt.asFloat();
+        p.x -= speed_ * dt;
         if (!p.scored && p.x + PipePair::kWidth < bird_->pos.x) {
-            p.scored = true;   // once per pipe
+            p.scored = true;
             ++score_;
             sfx("point");
             if (score_ == 10 || score_ == 20 || score_ == 40) sfx("medal");
         }
     }
-    // Recycle: the pipe that left the screen moves to the back, in place (no allocation).
     if (pipes_.front().x < -PipePair::kWidth) {
         const float x = pipes_.back().x + kSpacing;
         std::rotate(pipes_.begin(), pipes_.begin() + 1, pipes_.end());
@@ -155,7 +153,7 @@ void FlapwingGame::simulate(Seconds dt) {
     }
 }
 
-void FlapwingGame::afterSubsteps(Seconds) {
+void FlapwingGame::afterSubsteps(double) {
     speed_ = 50.0f + std::min(25.0f, static_cast<float>(score_));
 }
 
@@ -178,7 +176,6 @@ void FlapwingGame::drawWorld(gfx::Renderer& r) const {
     bird_->draw(r);
     ground_->draw(r);
 
-    // Night every other 25 points: remap the whole sky by inverting its shades.
     if ((score_ / 25) % 2 == 1) {
         auto& px = r.target();
         for (int y = 0; y < Physics::kGround; ++y)
@@ -197,7 +194,7 @@ void FlapwingGame::drawHud(gfx::Renderer& r) const {
     }
     if (state_ == State::Over && score_ >= 10) {
         const char* medal = score_ >= 40 ? "medal_gold" : score_ >= 20 ? "medal_silver" : "medal_bronze";
-        r.draw(sprites_->get(medal), {74, 24});
+        r.draw(sprites_.get(medal), {74, 24});
     }
 }
 
@@ -216,4 +213,4 @@ void FlapwingGame::load(io::BinaryReader& r) {
     if (static_cast<int>(state_) > 3) throw CorruptSaveError("SAVE CORRUPT", "state");
 }
 
-} // namespace nb::games::flapwing
+}

@@ -11,8 +11,9 @@ pixelated 4-shade LCD, an on-screen D-pad, A/B and START/SELECT buttons, and fiv
 | FLAPWING     | tap-to-fly                 |
 | SILVERBALL   | pinball                    |
 
-It is also an object-oriented programming showcase. Every major C++ OOP feature must appear
-somewhere it genuinely belongs, and `docs/oop-map.md` records where.
+It is also an object-oriented programming showcase, but only where a feature genuinely earns its
+place: `docs/oop-map.md` records where. Never add a class, interface or pattern just to tick a
+concept box. Lean code beats a complete checklist (see "Keep it lean" below).
 
 **Read before writing code:** `design.md` (architecture, class design, file formats, game specs)
 and `phases.md` (build order and exit criteria). They are the source of truth.
@@ -116,7 +117,7 @@ neobrick/
 │   ├── audio/      # Channel hierarchy, Envelope, Mixer, SfxLibrary, MusicPlayer
 │   ├── io/         # Paths, TextReader, IniFile, BinaryReader/Writer, Serializer, HighScoreTable, persistence
 │   ├── device/     # DeviceShell, ILayout, PortraitLayout, LandscapeLayout
-│   ├── ui/         # Widget, Panel, Label, ListView, Toast
+│   ├── ui/         # Widget, ListView, Toast
 │   ├── scenes/     # Scene, SceneStack, Boot/Menu/Game/Pause/ScoreEntry/Settings/Error scenes
 │   └── games/
 │       ├── Game.*  GridGame.*  PhysicsGame.*  GameObject.*  GameRegistry.*
@@ -151,11 +152,27 @@ neobrick/
   raw ownership. Do not add others. No raw `new`/`delete` anywhere else — use `std::make_unique`.
 - Const-correct. `[[nodiscard]]` on functions whose result must be used. `noexcept` on destructors,
   move operations, `swap`, and the audio callback.
-- Default to `std::array` / `std::vector`. When another container is used, add a one-line comment
-  saying why — that reasoning is part of the teaching value.
-- Each class header starts with `// Role: …` and, if it showcases an OOP concept,
-  `// Demonstrates: …` using the same wording as the row in `docs/oop-map.md`.
-- Comments explain *why*, not *what*.
+- Default to `std::array` / `std::vector`. When another container is used, record why in the
+  containers table of `docs/oop-map.md`.
+- **No comments in source files** — no `// Role:` / `// Demonstrates:` headers, no docstrings.
+  Names carry the meaning; `docs/oop-map.md` and `design.md` carry the explanations.
+
+## Keep it lean (ponytail rules)
+
+Before writing anything, stop at the first rung that holds:
+1. Does it need to exist at all? Speculative need → don't write it.
+2. Is it already in this codebase? Reuse it.
+3. Does the standard library do it? Use it (`std::clamp`, `std::ranges::find`, …).
+4. Can it be one line? Make it one line. Only then write the minimum code that works.
+
+Concretely:
+- No interface with one implementation, no factory with one product, no config nobody sets.
+- No wrapper or strong type that every caller immediately unwraps (e.g. `dt` is a plain `double`).
+- No mixin or helper that duplicates something that already exists (one instance counter: `Game::liveInstances`).
+- No caches for data loaded once: load assets directly with `SpriteSheet::load(io::Paths::asset(...))`.
+- Write `= delete` copy operations in the class itself; no base class just to forbid copying.
+- Delete dead code (unused members, enum values, presets) as soon as you notice it.
+- Fewest files possible; deletion over addition. Bug fixes go to the root cause, once.
 
 ## Exceptions policy
 

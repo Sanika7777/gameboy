@@ -1,49 +1,22 @@
 #pragma once
 
-// Role: small retained UI for menus, pause and settings lists.
-// Demonstrates: Composite (Widget / Panel); const correctness and mutable (Label width cache);
-//               operator overloading (ListView operator++/--)
-
 #include "gfx/Renderer.hpp"
 #include "input/InputState.hpp"
 
-#include <memory>
 #include <string>
 #include <vector>
 
 namespace nb::ui {
-
 class Widget {
 public:
     explicit Widget(Rect bounds) : bounds_(bounds) {}
     virtual ~Widget() = default;
     virtual void draw(gfx::Renderer& r) const = 0;
-    // Returns true if the input was consumed.
     virtual bool handle(const input::InputState&) { return false; }
     [[nodiscard]] const Rect& bounds() const noexcept { return bounds_; }
 
 protected:
     Rect bounds_;
-};
-
-class Label final : public Widget {
-public:
-    Label(Vec2i at, std::string text, gfx::TextStyle style = {})
-        : Widget(Rect(at.x, at.y, 0, 8)), text_(std::move(text)), style_(style) {}
-    void setText(std::string t) {
-        text_ = std::move(t);
-        width_ = -1;
-    }
-    [[nodiscard]] int width(const gfx::Renderer& r) const {
-        if (width_ < 0) width_ = r.font(style_.font()).textWidth(text_);   // cached: logically const
-        return width_;
-    }
-    void draw(gfx::Renderer& r) const override { r.text(text_, {bounds_.x, bounds_.y}, style_); }
-
-private:
-    std::string text_;
-    gfx::TextStyle style_;
-    mutable int width_ = -1;
 };
 
 class ListView final : public Widget {
@@ -72,27 +45,6 @@ private:
     int cursor_ = 0, disabled_ = -1, frames_ = 0;
 };
 
-class Panel final : public Widget {
-public:
-    explicit Panel(Rect bounds) : Widget(bounds) {}
-    template<class W, class... Args>
-    W& add(Args&&... args) {
-        auto w = std::make_unique<W>(std::forward<Args>(args)...);
-        W& ref = *w;
-        children_.push_back(std::move(w));
-        return ref;
-    }
-    bool handle(const input::InputState& in) override {
-        for (auto& c : children_)
-            if (c->handle(in)) return true;
-        return false;
-    }
-    void draw(gfx::Renderer& r) const override;
-
-private:
-    std::vector<std::unique_ptr<Widget>> children_;
-};
-
 class Toast {
 public:
     void show(std::string text, int frames = 150) {
@@ -109,4 +61,4 @@ private:
     int frames_ = 0;
 };
 
-} // namespace nb::ui
+}

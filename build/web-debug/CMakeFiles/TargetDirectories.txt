@@ -1,5 +1,0 @@
-/home/sanika/projects/cpp_minipro/build/web-debug/CMakeFiles/nbcore.dir
-/home/sanika/projects/cpp_minipro/build/web-debug/CMakeFiles/neobrick.dir
-/home/sanika/projects/cpp_minipro/build/web-debug/CMakeFiles/test.dir
-/home/sanika/projects/cpp_minipro/build/web-debug/CMakeFiles/edit_cache.dir
-/home/sanika/projects/cpp_minipro/build/web-debug/CMakeFiles/rebuild_cache.dir

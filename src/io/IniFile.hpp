@@ -1,8 +1,5 @@
 #pragma once
 
-// Role: [section] key = value text files (settings.ini).
-// Demonstrates: member function template with full specializations; std::map
-
 #include "core/Error.hpp"
 
 #include <filesystem>
@@ -11,10 +8,8 @@
 #include <vector>
 
 namespace nb::io {
-
 class IniFile {
 public:
-    // Strict when `errors` is null (throws ParseError); otherwise bad lines are skipped and reported.
     static IniFile load(const std::filesystem::path& file, std::vector<ParseError>* errors = nullptr);
     [[nodiscard]] std::string text() const;
 
@@ -28,7 +23,6 @@ public:
 private:
     [[nodiscard]] const std::string* find(const std::string& section, const std::string& key) const;
 
-    // Ordered maps so the written file is stable and diff-friendly.
     std::map<std::string, std::map<std::string, std::string>> sections_;
 };
 
@@ -39,4 +33,4 @@ int IniFile::get<int>(const std::string& section, const std::string& key, int fa
 template<>
 bool IniFile::get<bool>(const std::string& section, const std::string& key, bool fallback) const;
 
-} // namespace nb::io
+}

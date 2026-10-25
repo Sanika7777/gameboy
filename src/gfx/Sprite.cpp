@@ -6,7 +6,6 @@
 #include <algorithm>
 
 namespace nb::gfx {
-
 SpriteSheet SpriteSheet::load(const std::filesystem::path& file) {
     io::TextReader r(file);
     SpriteSheet sheet;
@@ -44,4 +43,4 @@ int SpriteSheet::indexOf(std::string_view name) const {
 
 const Sprite& SpriteSheet::get(std::string_view name) const { return frames_[static_cast<std::size_t>(indexOf(name))]; }
 
-} // namespace nb::gfx
+}

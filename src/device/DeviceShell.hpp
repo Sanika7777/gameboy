@@ -1,7 +1,5 @@
 #pragma once
 
-// Role: draws the console face (case, bezel, buttons) and answers "which control is here?".
-
 #include "device/ILayout.hpp"
 #include "gfx/BitmapFont.hpp"
 #include "gfx/RgbaSurface.hpp"
@@ -13,11 +11,10 @@
 #include <vector>
 
 namespace nb::device {
-
 struct CaseTheme {
     const char* name;
     gfx::Rgba body, shadow, light, bezel, rim, button, buttonDown, label;
-    bool dithered;   // Grape: a translucent look from a two-colour checker
+    bool dithered;
 };
 
 class DeviceShell final : public input::IHitTest {
@@ -33,7 +30,6 @@ public:
     [[nodiscard]] const Viewport& viewport() const noexcept { return vp_; }
     [[nodiscard]] Vec2i lcdOrigin() const noexcept { return lcd_; }
     [[nodiscard]] Vec2i physSize() const noexcept { return phys_; }
-    // This frame's face (the cached case copied in); the compositor then draws the LCD into it.
     [[nodiscard]] gfx::RgbaSurface& beginFrame();
 
     [[nodiscard]] input::Hit hit(Vec2i phys) const override;
@@ -55,4 +51,4 @@ private:
     gfx::RgbaSurface face_, frame_;
 };
 
-} // namespace nb::device
+}

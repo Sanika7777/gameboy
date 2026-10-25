@@ -6,16 +6,14 @@
 #include <sstream>
 
 namespace nb::io {
-
 namespace {
-
 std::string trimmed(std::string_view s) {
     const auto b = s.find_first_not_of(" \t");
     if (b == std::string_view::npos) return {};
     return std::string(s.substr(b, s.find_last_not_of(" \t") - b + 1));
 }
 
-} // namespace
+}
 
 IniFile IniFile::load(const std::filesystem::path& file, std::vector<ParseError>* errors) {
     TextReader r(file);
@@ -84,4 +82,4 @@ bool IniFile::get<bool>(const std::string& section, const std::string& key, bool
     return fallback;
 }
 
-} // namespace nb::io
+}

@@ -1,18 +1,14 @@
 #pragma once
 
-// Role: turns wall-clock time into a whole number of fixed 1/60 s simulation steps.
-
-#include "core/Seconds.hpp"
-
 #include <chrono>
 
 namespace nb {
+inline constexpr double kStep = 1.0 / 60.0;
 
 class Clock {
 public:
-    static constexpr double kMaxDelta = 0.25;   // after a stall, don't fast-forward more than this
+    static constexpr double kMaxDelta = 0.25;
 
-    // Steps due since the last call (usually 0, 1 or 2).
     [[nodiscard]] int advance() noexcept {
         const auto now = std::chrono::steady_clock::now();
         double dt = std::chrono::duration<double>(now - last_).count();
@@ -20,14 +16,13 @@ public:
         if (dt > kMaxDelta) dt = kMaxDelta;
         accumulator_ += dt;
         int steps = 0;
-        while (accumulator_ >= kStep.count()) {
-            accumulator_ -= kStep.count();
+        while (accumulator_ >= kStep) {
+            accumulator_ -= kStep;
             ++steps;
         }
         return steps;
     }
 
-    // Called when the page becomes visible again so hidden time isn't simulated.
     void reset() noexcept {
         last_ = std::chrono::steady_clock::now();
         accumulator_ = 0.0;
@@ -38,4 +33,4 @@ private:
     double accumulator_ = 0.0;
 };
 
-} // namespace nb
+}

@@ -3,7 +3,6 @@
 #include "io/TextReader.hpp"
 
 namespace nb::gfx {
-
 BitmapFont BitmapFont::load(const std::filesystem::path& file) {
     io::TextReader r(file);
     BitmapFont f;
@@ -15,7 +14,6 @@ BitmapFont BitmapFont::load(const std::filesystem::path& file) {
         f.h_ = io::parseInt(r, t[2]);
         if (f.w_ < 1 || f.w_ > 8 || f.h_ < 1 || f.h_ > 8) r.fail("glyph size must be 1..8");
     }
-    // Raw reads throughout: '#' is both the comment marker and the "on" pixel.
     while (r.nextRaw()) {
         const auto line = r.line();
         if (line.empty() || line.starts_with("# ") || line == "#") continue;
@@ -49,4 +47,4 @@ bool BitmapFont::pixel(char c, int x, int y) const noexcept {
     return (rows_[ci][static_cast<std::size_t>(y)] >> x) & 1u;
 }
 
-} // namespace nb::gfx
+}

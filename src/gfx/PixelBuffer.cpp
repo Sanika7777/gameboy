@@ -5,7 +5,6 @@
 #include <utility>
 
 namespace nb::gfx {
-
 PixelBuffer::PixelBuffer(int w, int h, Shade fillShade)
     : w_(w), h_(h), data_(new Shade[static_cast<std::size_t>(w) * h]) {
     std::fill_n(data_, w_ * h_, fillShade);
@@ -20,7 +19,6 @@ PixelBuffer::PixelBuffer(PixelBuffer&& other) noexcept
     : w_(std::exchange(other.w_, 0)), h_(std::exchange(other.h_, 0)),
       data_(std::exchange(other.data_, nullptr)) {}
 
-// Copy-and-swap: the copy may throw, but *this is untouched until the no-throw swap.
 PixelBuffer& PixelBuffer::operator=(const PixelBuffer& other) {
     PixelBuffer copy(other);
     swap(*this, copy);
@@ -53,4 +51,4 @@ bool operator==(const PixelBuffer& a, const PixelBuffer& b) noexcept {
     return a.w_ == b.w_ && a.h_ == b.h_ && std::equal(a.data_, a.data_ + a.w_ * a.h_, b.data_);
 }
 
-} // namespace nb::gfx
+}

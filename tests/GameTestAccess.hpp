@@ -1,8 +1,5 @@
 #pragma once
 
-// Role: the single friend class every game grants to tests (one definition for the whole test binary).
-// Demonstrates: friend class
-
 #include "games/flapwing/FlapwingGame.hpp"
 #include "games/minefield/MinefieldGame.hpp"
 #include "games/serpent/SerpentGame.hpp"
@@ -12,10 +9,8 @@
 #include <deque>
 
 namespace nb::games {
-
 class GameTestAccess {
 public:
-    // --- SERPENT
     using S = serpent::SerpentGame;
     static std::deque<Vec2i>& body(S& g) { return g.body_; }
     static void setBody(S& g, std::deque<Vec2i> b) {
@@ -29,7 +24,6 @@ public:
     static std::size_t queued(const S& g) { return g.turns_.size(); }
     static void stepOnce(S& g) { g.advance(); }
 
-    // --- MINEFIELD
     using M = minefield::MinefieldGame;
     static void reveal(M& g, Vec2i c) { g.reveal(c); }
     static void chord(M& g, Vec2i c) { g.chord(c); }
@@ -39,7 +33,6 @@ public:
     static int mineCount(const M& g) { return static_cast<int>(g.mines_.size()); }
     static bool lost(const M& g) { return g.boom_.x >= 0; }
     static bool won(const M& g) { return g.state_ == M::State::Won; }
-    // Replace the board with a hand-made Rookie board (mines at the given cells).
     static void rig(M& g, std::initializer_list<Vec2i> mines) {
         g.begin(minefield::Difficulty::Rookie);
         g.state_ = M::State::Playing;
@@ -55,7 +48,6 @@ public:
             }
     }
 
-    // --- STACKFALL
     using F = stackfall::StackfallGame;
     static Grid<std::uint8_t>& board(F& g) { return g.board_; }
     static void place(F& g, stackfall::Kind k, int rot, Vec2i pos) { g.cur_ = {k, rot, pos}; }
@@ -68,14 +60,12 @@ public:
     static bool dying(const F& g) { return g.state_ == F::State::Dying; }
     static void spawn(F& g, stackfall::Kind k) { g.spawn(k); }
 
-    // --- FLAPWING
     using W = flapwing::FlapwingGame;
     static flapwing::Bird& bird(W& g) { return *g.bird_; }
     static std::deque<flapwing::PipePair>& pipes(W& g) { return g.pipes_; }
     static void fly(W& g) { g.state_ = W::State::Flying; }
     static bool crashed(const W& g) { return g.state_ == W::State::Falling || g.state_ == W::State::Over; }
 
-    // --- SILVERBALL
     using P = silverball::SilverballGame;
     static silverball::Ball& ball(P& g) { return *g.ball_; }
     static void play(P& g) { g.state_ = P::State::Play; }
@@ -83,4 +73,4 @@ public:
     static bool tilted(const P& g) { return g.tilted_; }
 };
 
-} // namespace nb::games
+}

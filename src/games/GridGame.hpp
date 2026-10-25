@@ -1,14 +1,10 @@
 #pragma once
 
-// Role: shared base for games played on a cell grid (SERPENT, MINEFIELD, STACKFALL).
-// Demonstrates: multilevel inheritance (Game → GridGame → leaf); protected members/constructors
-
 #include "games/Game.hpp"
 
 #include <optional>
 
 namespace nb::games {
-
 class GridGame : public Game {
 protected:
     GridGame(GameContext& ctx, Vec2i cells, int cellPx, Vec2i origin)
@@ -26,7 +22,6 @@ protected:
         const Vec2i p = cellToScreen(cell);
         return {p.x, p.y, cellPx_, cellPx_};
     }
-    // 1-px Ink outline just outside the play area.
     void drawFrame(gfx::Renderer& r) const {
         r.rect(Rect(origin_.x - 1, origin_.y - 1, cells_.x * cellPx_ + 2, cells_.y * cellPx_ + 2), gfx::Shade::Ink);
     }
@@ -41,4 +36,4 @@ protected:
     Vec2i origin_;
 };
 
-} // namespace nb::games
+}

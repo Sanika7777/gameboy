@@ -4,9 +4,7 @@
 #include <cmath>
 
 namespace nb::audio {
-
 void Envelope::start(int attackTicks, int decayTicks, float sustain, int releaseTicks) noexcept {
-    // Small but non-zero attack/release so notes never start or stop with a click.
     attackStep_ = 1.0f / std::max(1.0f, attackTicks * kTick);
     decayStep_ = decayTicks > 0 ? (1.0f - sustain) / (decayTicks * kTick) : 0.0f;
     releaseStep_ = 1.0f / std::max(64.0f, releaseTicks * kTick);
@@ -65,7 +63,6 @@ float Channel::render() noexcept {
 }
 
 WaveChannel::WaveChannel() noexcept {
-    // A soft triangle; different timbre from the pulses.
     for (std::size_t i = 0; i < table_.size(); ++i)
         table_[i] = static_cast<std::uint8_t>(i < 16 ? i : 31 - i);
 }
@@ -76,7 +73,6 @@ float WaveChannel::sample() noexcept {
 }
 
 float NoiseChannel::sample() noexcept {
-    // The LFSR is clocked at the channel "frequency"; higher = hissier.
     clock_ += freq_ / kSampleRate;
     while (clock_ >= 1.0f) {
         clock_ -= 1.0f;
@@ -87,4 +83,4 @@ float NoiseChannel::sample() noexcept {
     return (lfsr_ & 1u) ? 1.0f : -1.0f;
 }
 
-} // namespace nb::audio
+}

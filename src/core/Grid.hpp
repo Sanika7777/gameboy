@@ -1,25 +1,18 @@
 #pragma once
 
-// Role: fixed-size 2-D grid of cells for the grid games.
-// Demonstrates: class template; operator overloading (operator()); iterators (begin/end)
-
 #include "core/Rect.hpp"
 
 #include <algorithm>
 #include <array>
-#include <stdexcept>
 #include <type_traits>
 #include <vector>
 
 namespace nb {
-
 template<class T>
 class Grid {
-    // std::vector<bool> packs bits and hands out proxies, so references to cells would break.
     static_assert(!std::is_same_v<T, bool>, "use Grid<std::uint8_t> instead of Grid<bool>");
 
 public:
-    // Up to eight neighbours, returned by value with no allocation.
     struct Neighbours {
         std::array<Vec2i, 8> cells{};
         int count = 0;
@@ -34,20 +27,10 @@ public:
     [[nodiscard]] int height() const noexcept { return h_; }
     [[nodiscard]] bool contains(Vec2i p) const noexcept { return p.x >= 0 && p.y >= 0 && p.x < w_ && p.y < h_; }
 
-    // Unchecked, like std::vector::operator[].
     T& operator()(int x, int y) noexcept { return cells_[index(x, y)]; }
     const T& operator()(int x, int y) const noexcept { return cells_[index(x, y)]; }
     T& operator()(Vec2i p) noexcept { return (*this)(p.x, p.y); }
     const T& operator()(Vec2i p) const noexcept { return (*this)(p.x, p.y); }
-
-    T& at(Vec2i p) {
-        if (!contains(p)) throw std::out_of_range("Grid::at");
-        return (*this)(p);
-    }
-    const T& at(Vec2i p) const {
-        if (!contains(p)) throw std::out_of_range("Grid::at");
-        return (*this)(p);
-    }
 
     [[nodiscard]] Neighbours neighbours(Vec2i p, bool diagonal = true) const noexcept {
         Neighbours n;
@@ -62,7 +45,6 @@ public:
 
     void fill(const T& v) { std::fill(cells_.begin(), cells_.end(), v); }
 
-    // Range-for and STL algorithms over every cell, row by row.
     auto begin() noexcept { return cells_.begin(); }
     auto end() noexcept { return cells_.end(); }
     auto begin() const noexcept { return cells_.begin(); }
@@ -77,4 +59,4 @@ private:
     std::vector<T> cells_;
 };
 
-} // namespace nb
+}

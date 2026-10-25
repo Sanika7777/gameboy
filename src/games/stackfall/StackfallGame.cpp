@@ -7,14 +7,12 @@
 #include <cstdio>
 
 namespace nb::games::stackfall {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
 using input::Button;
 
 namespace {
-
 constexpr Vec2i kOrigin{4, 2};
 constexpr int kCell = 7;
 
@@ -22,7 +20,7 @@ const Cells& shapeOf(Kind k, int rot) {
     return kShapes[static_cast<std::size_t>(k)][static_cast<std::size_t>(rot & 3)];
 }
 
-} // namespace
+}
 
 Tuning Tuning::load(const std::filesystem::path& file) {
     io::TextReader r(file);
@@ -82,7 +80,6 @@ void StackfallGame::reset() {
 }
 
 Kind StackfallGame::nextFromBag() {
-    // 7-bag: every kind exactly once per bag, in shuffled order.
     if (bagPos_ >= kKinds) {
         for (int i = 0; i < kKinds; ++i) bag_[static_cast<std::size_t>(i)] = static_cast<Kind>(i);
         std::shuffle(bag_.begin(), bag_.end(), ctx_.rng.engine());
@@ -99,11 +96,11 @@ bool StackfallGame::fits(const Piece& p) const {
 }
 
 void StackfallGame::spawn(Kind k) {
-    cur_ = Piece{k, 0, {k == Kind::O ? 4 : 3, kHidden - 1}};   // bottom row visible at once
+    cur_ = Piece{k, 0, {k == Kind::O ? 4 : 3, kHidden - 1}};
     fallTimer_ = lockTimer_ = resets_ = 0;
     canHold_ = true;
     if (!fits(cur_)) {
-        state_ = State::Dying;   // top-out
+        state_ = State::Dying;
         stateFrames_ = 0;
         sfx("gameover");
         buzz(40);
@@ -126,7 +123,7 @@ bool StackfallGame::rotate(int dir) {
     const auto& kicks = cur_.kind == Kind::I ? kKicksI : kKicks;
     for (const Vec2i k : kicks) {
         Piece q = p;
-        q.pos.x += dir > 0 ? k.x : -k.x;   // mirror horizontal kicks for the other direction
+        q.pos.x += dir > 0 ? k.x : -k.x;
         q.pos.y += k.y;
         if (fits(q)) {
             cur_ = q;
@@ -138,7 +135,6 @@ bool StackfallGame::rotate(int dir) {
 }
 
 void StackfallGame::touchedAfterMove() {
-    // Moving a grounded piece restarts its lock delay, but only a limited number of times.
     Piece below = cur_;
     ++below.pos.y;
     if (!fits(below) && resets_ < tuning_.lockResets) {
@@ -179,7 +175,6 @@ void StackfallGame::lock() {
 }
 
 void StackfallGame::collapse() {
-    // Remove full rows by copying every surviving row down, bottom-up.
     int write = kHeight - 1;
     for (int y = kHeight - 1; y >= 0; --y) {
         if (std::find(clearing_.begin(), clearing_.end(), y) != clearing_.end()) continue;
@@ -218,7 +213,6 @@ void StackfallGame::handleInput(const input::InputState& in) {
         return;
     }
     if (in.pressed(Button::Up)) {
-        // Hard drop: straight to the ghost, +2 per row, lock at once.
         const Piece g = ghost();
         score_ += static_cast<std::uint32_t>(2 * (g.pos.y - cur_.pos.y));
         cur_ = g;
@@ -226,7 +220,6 @@ void StackfallGame::handleInput(const input::InputState& in) {
         lock();
         return;
     }
-    // DAS / ARR: move on press, wait `das` frames, then repeat every `arr` frames.
     const int dir = in.held(Button::Right) - in.held(Button::Left);
     if (dir != dasDir_) {
         dasDir_ = dir;
@@ -245,15 +238,15 @@ void StackfallGame::handleInput(const input::InputState& in) {
         if (fits(p)) {
             cur_ = p;
             fallTimer_ = 0;
-            ++score_;   // soft drop: +1 per row
+            ++score_;
         }
     }
 }
 
-void StackfallGame::updateWorld(Seconds) {
+void StackfallGame::updateWorld(double) {
     ++stateFrames_;
     if (state_ == State::Clearing) {
-        if (stateFrames_ >= 18) collapse();   // three flashes
+        if (stateFrames_ >= 18) collapse();
         return;
     }
     if (state_ == State::Dying) {
@@ -293,7 +286,6 @@ void StackfallGame::drawWorld(gfx::Renderer& r) const {
     r.clear(Shade::Paper);
     r.fill(Rect(76, 0, 84, 144), gfx::Dither::Quarter, Shade::Paper, Shade::Light);
     drawFrame(r);
-    // Reduce-flashing setting: cleared rows hold a steady shade instead of blinking.
     const bool flashOn = ctx_.settings.reduceFlashing || (stateFrames_ / 3) % 2 == 0;
     for (int y = kHidden; y < kHeight; ++y) {
         const bool clearing = state_ == State::Clearing && std::find(clearing_.begin(), clearing_.end(), y) != clearing_.end();
@@ -384,4 +376,4 @@ void StackfallGame::load(io::BinaryReader& r) {
     dasDir_ = 0;
 }
 
-} // namespace nb::games::stackfall
+}

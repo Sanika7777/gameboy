@@ -1,10 +1,5 @@
 #pragma once
 
-// Role: STACKFALL, the falling-block puzzle (design §11.3).
-// Demonstrates: static constexpr std::array rotation tables; 7-bag std::shuffle; std::deque next queue;
-//               std::all_of line detection
-
-#include "core/Counted.hpp"
 #include "core/Grid.hpp"
 #include "games/GridGame.hpp"
 
@@ -14,25 +9,23 @@
 #include <vector>
 
 namespace nb::games::stackfall {
-
 enum class Kind : std::uint8_t { I, O, T, S, Z, J, L };
 inline constexpr int kKinds = 7;
 
 using Cells = std::array<Vec2i, 4>;
 using Rotations = std::array<Cells, 4>;
 
-// Box size each piece rotates in: rotation maps (x, y) → (n-1-y, x).
 inline constexpr std::array<int, kKinds> kBox{4, 2, 3, 3, 3, 3, 3};
 
 constexpr std::array<Rotations, kKinds> makeShapes() {
     constexpr std::array<Cells, kKinds> spawn{{
-        {{{0, 1}, {1, 1}, {2, 1}, {3, 1}}},   // I
-        {{{0, 0}, {1, 0}, {0, 1}, {1, 1}}},   // O
-        {{{1, 0}, {0, 1}, {1, 1}, {2, 1}}},   // T
-        {{{1, 0}, {2, 0}, {0, 1}, {1, 1}}},   // S
-        {{{0, 0}, {1, 0}, {1, 1}, {2, 1}}},   // Z
-        {{{0, 0}, {0, 1}, {1, 1}, {2, 1}}},   // J
-        {{{2, 0}, {0, 1}, {1, 1}, {2, 1}}},   // L
+        {{{0, 1}, {1, 1}, {2, 1}, {3, 1}}},
+        {{{0, 0}, {1, 0}, {0, 1}, {1, 1}}},
+        {{{1, 0}, {0, 1}, {1, 1}, {2, 1}}},
+        {{{1, 0}, {2, 0}, {0, 1}, {1, 1}}},
+        {{{0, 0}, {1, 0}, {1, 1}, {2, 1}}},
+        {{{0, 0}, {0, 1}, {1, 1}, {2, 1}}},
+        {{{2, 0}, {0, 1}, {1, 1}, {2, 1}}},
     }};
     std::array<Rotations, kKinds> out{};
     for (int k = 0; k < kKinds; ++k) {
@@ -47,20 +40,18 @@ constexpr std::array<Rotations, kKinds> makeShapes() {
     return out;
 }
 
-// Computed at compile time: no tables to load, no runtime cost.
 inline constexpr std::array<Rotations, kKinds> kShapes = makeShapes();
 
-// Offsets tried, in order, when a rotation collides (y grows downward).
 inline constexpr std::array<Vec2i, 6> kKicks{{{0, 0}, {-1, 0}, {1, 0}, {0, -1}, {-1, -1}, {1, -1}}};
 inline constexpr std::array<Vec2i, 6> kKicksI{{{0, 0}, {-1, 0}, {1, 0}, {-2, 0}, {2, 0}, {0, -1}}};
 
 struct Tuning {
-    std::vector<int> gravity;   // frames per row, by level
+    std::vector<int> gravity;
     int das = 10, arr = 2, lockDelay = 30, lockResets = 15;
-    static Tuning load(const std::filesystem::path& file);   // throws ParseError
+    static Tuning load(const std::filesystem::path& file);
 };
 
-class StackfallGame final : public GridGame, private Counted<StackfallGame> {
+class StackfallGame final : public GridGame {
 public:
     static constexpr int kWidth = 10, kHeight = 22, kHidden = 2;
 
@@ -80,7 +71,7 @@ public:
 
 protected:
     void handleInput(const input::InputState& in) override;
-    void updateWorld(Seconds dt) override;
+    void updateWorld(double dt) override;
     void drawWorld(gfx::Renderer& r) const override;
     void drawHud(gfx::Renderer& r) const override;
 
@@ -105,10 +96,10 @@ private:
     void drawBlock(gfx::Renderer& r, Vec2i at, Kind k, int px) const;
 
     Tuning tuning_;
-    Grid<std::uint8_t> board_;           // 0 empty, 1 + Kind otherwise
+    Grid<std::uint8_t> board_;
     std::array<Kind, kKinds> bag_{};
     int bagPos_ = kKinds;
-    std::deque<Kind> next_;              // pop the front, refill the back
+    std::deque<Kind> next_;
     Piece cur_;
     std::optional<Kind> hold_;
     bool canHold_ = true;
@@ -121,4 +112,4 @@ private:
     friend class nb::games::GameTestAccess;
 };
 
-} // namespace nb::games::stackfall
+}

@@ -3,7 +3,6 @@
 #include <algorithm>
 
 namespace nb::device {
-
 Vec2i PortraitLayout::surfaceFor(Vec2i phys, int scale) const {
     return {180, std::clamp(phys.y / scale, 300, 400)};
 }
@@ -39,4 +38,4 @@ Viewport fit(const ILayout& layout, Vec2i phys) {
     return v;
 }
 
-} // namespace nb::device
+}

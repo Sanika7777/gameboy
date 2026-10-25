@@ -1,7 +1,6 @@
 #include "core/App.hpp"
 
 #include "core/Log.hpp"
-#include "games/AllGames.hpp"
 #include "gfx/Palette.hpp"
 #include "io/Paths.hpp"
 #include "scenes/BootScene.hpp"
@@ -11,31 +10,28 @@
 #include <ctime>
 
 namespace nb {
-
 using gfx::Shade;
 using input::Button;
 
 App::App()
     : persistence_(platform::SdlPlatform::makePersistence()),
-      assets_(io::Paths::assetDir(), {"fonts/pixel5x7.fnt", "fonts/mini3x5.fnt"}),
-      mainFont_(assets_.font("fonts/pixel5x7.fnt")),
-      miniFont_(assets_.font("fonts/mini3x5.fnt")),
+      mainFont_(gfx::BitmapFont::load(io::Paths::asset("fonts/pixel5x7.fnt"))),
+      miniFont_(gfx::BitmapFont::load(io::Paths::asset("fonts/mini3x5.fnt"))),
       lcd_(160, 144),
       renderer_(lcd_),
-      shell_(*miniFont_),
+      shell_(miniFont_),
       input_(shell_),
       sfx_(audio::SfxLibrary::load(io::Paths::asset("audio/sfx.txt"))),
       settings_(io::Paths::save("settings.ini"), *persistence_),
       scores_(io::Paths::save("scores.dat"), *persistence_),
       rng_(static_cast<std::uint32_t>(std::time(nullptr))),
-      services_{scenes_, events_, rng_, assets_, settings_, scores_, registry_, *persistence_} {
-    // Proves -fwasm-exceptions is on for both compile and link; without it this aborts on the web.
+      services_{scenes_, events_, rng_, settings_, scores_, registry_, *persistence_} {
     try {
         throw std::runtime_error("probe");
     } catch (const std::exception&) {
         logInfo("exceptions OK");
     }
-    renderer_.setFonts(mainFont_.get(), miniFont_.get());
+    renderer_.setFonts(&mainFont_, &miniFont_);
     gfx::Palette::loadPresets(io::Paths::asset("data/palettes.txt"));
     games::registerAll(registry_);
 
@@ -49,11 +45,10 @@ App::App()
 
     relayout(platform_.physSize());
     platform_.openAudio(&App::renderAudio, this);
-    // Web: saves come back from IndexedDB asynchronously; the loading screen shows meanwhile.
     persistence_->restoreAll([this] { start(); });
 }
 
-App::~App() { platform_.pauseAudio(true); }   // silence the callback before the mixer dies
+App::~App() { platform_.pauseAudio(true); }
 
 void App::renderAudio(void* self, std::int16_t* out, int samples) noexcept {
     static_cast<App*>(self)->mixer_.render({out, static_cast<std::size_t>(samples)});
@@ -99,7 +94,7 @@ void App::handle(const PlatformEvent& e) {
                            scenes_.hidden();
                            scenes_.applyPending();
                        }
-                       clock_.reset();   // don't fast-forward the time spent hidden
+                       clock_.reset();
                    },
                    [&](const KeyEvent& k) {
                        if (k.down && k.key == Key::F1) debug_ = !debug_;
@@ -120,8 +115,6 @@ void App::frame() noexcept {
             renderer_.text("LOADING", {80, 68}, gfx::TextStyle{}.align(gfx::Align::Center));
         } else {
             if (!(settings_.get() == applied_)) applySettings();
-            // Sample input only on frames that simulate: on a 120 Hz screen half the frames run
-            // no step, and sampling there would swallow press edges before any step saw them.
             const int steps = visible_ ? clock_.advance() : 0;
             const auto& in = input_.state();
             if (steps > 0) {
@@ -149,7 +142,6 @@ void App::frame() noexcept {
             shell_.setPressed(in.heldSet());
         }
 
-        // Palette fade after each scene change: Paper → normal in 3 steps of 4 frames.
         compositor_.setFade((fadeFrames_ + 3) / 4);
         auto& face = shell_.beginFrame();
         compositor_.compose(lcd_, gfx::Palette::preset(settings_.get().palette), face, shell_.lcdOrigin());
@@ -195,4 +187,4 @@ void App::drawDebug() {
     }
 }
 
-} // namespace nb
+}

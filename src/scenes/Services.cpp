@@ -4,7 +4,6 @@
 #include "core/Log.hpp"
 
 namespace nb::scenes {
-
 void Services::saveScores() const {
     try {
         scores.save();
@@ -14,4 +13,4 @@ void Services::saveScores() const {
     }
 }
 
-} // namespace nb::scenes
+}

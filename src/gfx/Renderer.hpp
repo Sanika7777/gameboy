@@ -1,8 +1,5 @@
 #pragma once
 
-// Role: every drawing primitive games and scenes use, all clipped, into a shade buffer.
-// Demonstrates: function overloading; explicit constructor
-
 #include "core/Rect.hpp"
 #include "gfx/BitmapFont.hpp"
 #include "gfx/PixelBuffer.hpp"
@@ -11,10 +8,8 @@
 #include <string_view>
 
 namespace nb::gfx {
-
 enum class Flip : std::uint8_t { None, Horizontal, Vertical };
 
-// Share of pixels that take the second shade, laid out by a 4×4 Bayer matrix.
 enum class Dither : std::uint8_t { Quarter = 4, Half = 8, ThreeQuarter = 12 };
 
 class Renderer {
@@ -30,13 +25,11 @@ public:
     void line(Vec2i a, Vec2i b, Shade s);
     void rect(const Rect& r, Shade s);
     void fill(const Rect& r, Shade s);
-    // Shade::Clear for either shade leaves those pixels untouched (overlay dimming).
     void fill(const Rect& r, Dither d, Shade a, Shade b);
     void circle(Vec2i c, int r, Shade s);
     void fillCircle(Vec2i c, int r, Shade s);
     void draw(const Sprite& s, Vec2i at, Flip f = Flip::None);
     void draw(const SpriteSheet& sheet, int frame, Vec2i at, Flip f = Flip::None);
-    // Returns the drawn width. Inverted text sits in a box of the style's shade.
     int text(std::string_view str, Vec2i at, const TextStyle& style = {});
 
     void setClip(const Rect& r) noexcept;
@@ -45,7 +38,7 @@ public:
     [[nodiscard]] Vec2i camera() const noexcept { return camera_; }
 
 private:
-    void plot(int x, int y, Shade s) noexcept;   // screen space, clipped
+    void plot(int x, int y, Shade s) noexcept;
     void span(int x0, int x1, int y, Shade s) noexcept;
 
     PixelBuffer& target_;
@@ -55,4 +48,4 @@ private:
     const BitmapFont* mini_ = nullptr;
 };
 
-} // namespace nb::gfx
+}

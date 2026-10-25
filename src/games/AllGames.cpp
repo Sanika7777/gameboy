@@ -1,4 +1,4 @@
-#include "games/AllGames.hpp"
+#include "games/GameRegistry.hpp"
 
 #include "games/flapwing/FlapwingGame.hpp"
 #include "games/minefield/MinefieldGame.hpp"
@@ -7,15 +7,13 @@
 #include "games/stackfall/StackfallGame.hpp"
 
 namespace nb::games {
-
 namespace {
-
 template<class G>
 void add(GameRegistry& reg) {
     reg.add(G::staticInfo(), [](GameContext& ctx) -> std::unique_ptr<Game> { return std::make_unique<G>(ctx); });
 }
 
-} // namespace
+}
 
 void registerAll(GameRegistry& registry) {
     add<serpent::SerpentGame>(registry);
@@ -25,4 +23,4 @@ void registerAll(GameRegistry& registry) {
     add<silverball::SilverballGame>(registry);
 }
 
-} // namespace nb::games
+}

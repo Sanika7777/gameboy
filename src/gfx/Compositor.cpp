@@ -3,11 +3,8 @@
 #include <algorithm>
 
 namespace nb::gfx {
-
 namespace {
-
 constexpr Rgba blend(Rgba now, Rgba before) noexcept {
-    // 65 % new + 35 % previous per channel: the classic slow-LCD smear.
     Rgba out = 0xFF000000u;
     for (int shift = 0; shift <= 16; shift += 8) {
         const Rgba a = (now >> shift) & 0xFF, b = (before >> shift) & 0xFF;
@@ -16,7 +13,7 @@ constexpr Rgba blend(Rgba now, Rgba before) noexcept {
     return out;
 }
 
-} // namespace
+}
 
 void GhostingEffect::apply(std::span<Rgba> frame, std::span<const Rgba> previous) const noexcept {
     for (std::size_t i = 0; i < frame.size() && i < previous.size(); ++i) frame[i] = blend(frame[i], previous[i]);
@@ -32,7 +29,7 @@ Compositor::Compositor() : effect_(std::make_unique<NoEffect>()) {}
 
 void Compositor::compose(const PixelBuffer& lcd, const Palette& palette, RgbaSurface& out, Vec2i at) {
     const auto shades = lcd.pixels();
-    frame_.resize(shades.size());       // no-op after the first frame
+    frame_.resize(shades.size());
     previous_.resize(shades.size());
 
     const int fade = fade_;
@@ -48,4 +45,4 @@ void Compositor::compose(const PixelBuffer& lcd, const Palette& palette, RgbaSur
                     &out(at.x, at.y + y));
 }
 
-} // namespace nb::gfx
+}

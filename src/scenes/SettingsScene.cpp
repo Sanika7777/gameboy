@@ -8,17 +8,14 @@
 #include <algorithm>
 
 namespace nb::scenes {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
 using input::Button;
 
 namespace {
-
 constexpr const char* kVersion = "V1.0";
 
-// Next/previous entry of a list of names, wrapping.
 std::string cycle(const std::vector<std::string>& names, const std::string& cur, int dir) {
     auto it = std::find(names.begin(), names.end(), cur);
     auto i = it == names.end() ? 0 : static_cast<int>(it - names.begin());
@@ -49,7 +46,7 @@ const char* title(SettingsScene::Page p) {
     return "";
 }
 
-} // namespace
+}
 
 SettingsScene::SettingsScene(Services& s) : s_(s), list_(Rect(8, 18, 150, 110), {}) { open(Page::Main); }
 
@@ -105,7 +102,7 @@ void SettingsScene::change(int item, int dir) {
     rebuild();
 }
 
-void SettingsScene::update(const input::InputState& in, Seconds) {
+void SettingsScene::update(const input::InputState& in, double) {
     list_.tick();
     if (list_.handle(in)) {
         s_.sfx("move");
@@ -160,4 +157,4 @@ void SettingsScene::draw(gfx::Renderer& r) const {
     footer(r, "UP/DN: PICK  L/R: CHANGE  B: BACK");
 }
 
-} // namespace nb::scenes
+}

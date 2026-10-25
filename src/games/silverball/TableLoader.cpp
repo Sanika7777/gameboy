@@ -6,9 +6,7 @@
 #include <map>
 
 namespace nb::games::silverball {
-
 namespace {
-
 Vec2f point(const io::TextReader& r, std::string_view s) {
     const auto comma = s.find(',');
     if (comma == std::string_view::npos) r.fail("expected x,y but got '" + std::string(s) + "'");
@@ -24,7 +22,6 @@ T& add(Table& t, std::unique_ptr<T> e) {
 
 using Factory = std::function<void(const io::TextReader&, const io::Attrs&, Table&)>;
 
-// Each keyword maps to the lambda that builds it. Adding an element type = one new entry.
 const std::map<std::string, Factory, std::less<>>& factories() {
     static const std::map<std::string, Factory, std::less<>> m{
         {"table", [](const io::TextReader&, const io::Attrs& a, Table& t) {
@@ -66,7 +63,7 @@ const std::map<std::string, Factory, std::less<>>& factories() {
     return m;
 }
 
-} // namespace
+}
 
 Table loadTable(const std::filesystem::path& file) {
     io::TextReader r(file);
@@ -82,4 +79,4 @@ Table loadTable(const std::filesystem::path& file) {
     return t;
 }
 
-} // namespace nb::games::silverball
+}

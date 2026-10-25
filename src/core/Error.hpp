@@ -1,14 +1,9 @@
 #pragma once
 
-// Role: every recoverable failure the app can report, organised so callers catch by category.
-// Demonstrates: custom exception hierarchy
-
 #include <stdexcept>
 #include <string>
 
 namespace nb {
-
-// what() is a short headline for a 26-column screen; context() carries the detail.
 class Error : public std::runtime_error {
 public:
     explicit Error(const std::string& what, std::string context = {})
@@ -22,7 +17,6 @@ private:
 class PlatformError : public Error { using Error::Error; };
 
 class AssetError : public Error { using Error::Error; };
-class FileNotFoundError : public AssetError { using AssetError::AssetError; };
 
 class ParseError : public AssetError {
 public:
@@ -40,10 +34,8 @@ class SaveError : public Error { using Error::Error; };
 class CorruptSaveError : public SaveError { using SaveError::SaveError; };
 class VersionMismatchError : public SaveError { using SaveError::SaveError; };
 
-class GameError : public Error { using Error::Error; };
-class UnknownGameError : public GameError { using GameError::GameError; };
+class UnknownGameError : public Error { using Error::Error; };
 
-// Programmer error (bad arguments, misuse), not a runtime condition.
 class ContractViolation : public std::logic_error { using std::logic_error::logic_error; };
 
-} // namespace nb
+}

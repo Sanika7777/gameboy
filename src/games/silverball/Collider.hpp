@@ -1,8 +1,5 @@
 #pragma once
 
-// Role: pinball collision shapes and the ball they collide with.
-// Demonstrates: runtime polymorphism (Collider::test); hierarchical inheritance; final; std::optional results
-
 #include "core/Vec2.hpp"
 #include "games/GameObject.hpp"
 
@@ -10,7 +7,6 @@
 #include <optional>
 
 namespace nb::games::silverball {
-
 [[nodiscard]] inline float dot(Vec2f a, Vec2f b) noexcept { return a.x * b.x + a.y * b.y; }
 [[nodiscard]] inline float length(Vec2f v) noexcept { return std::sqrt(dot(v, v)); }
 
@@ -20,7 +16,7 @@ public:
     static constexpr float kMaxSpeed = 500.0f;
 
     Ball() : Identifiable("ball") {}
-    void update(Seconds dt) override;   // gravity + motion
+    void update(double dt) override;
     void draw(gfx::Renderer& r) const override;
 
     Vec2f pos, vel;
@@ -28,10 +24,10 @@ public:
 };
 
 struct Contact {
-    Vec2f normal;        // unit, pointing from the surface toward the ball
-    float depth = 0;     // how far the ball is inside
-    Vec2f point;         // closest point on the surface
-    Vec2f surfaceVel;    // moving surfaces (flippers) push the ball
+    Vec2f normal;
+    float depth = 0;
+    Vec2f point;
+    Vec2f surfaceVel;
 };
 
 class Collider {
@@ -50,7 +46,6 @@ private:
     float r_;
 };
 
-// A capsule: every point within `thickness` of the segment a–b.
 class SegmentCollider : public Collider {
 public:
     SegmentCollider(Vec2f a, Vec2f b, float thickness) : a_(a), b_(b), thick_(thickness) {}
@@ -66,7 +61,6 @@ private:
     float thick_;
 };
 
-// A segment that rotates about its first end; contacts carry the surface's velocity.
 class FlipperCollider final : public SegmentCollider {
 public:
     FlipperCollider(Vec2f pivot, float length, float side, float thickness);
@@ -76,8 +70,8 @@ public:
 
 private:
     Vec2f pivot_;
-    float length_, side_;   // side: +1 points right (left flipper), -1 points left
+    float length_, side_;
     float angle_ = 0, angularVel_ = 0;
 };
 
-} // namespace nb::games::silverball
+}

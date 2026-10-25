@@ -14,7 +14,6 @@
 using namespace nb::gfx;
 
 namespace {
-
 std::uint64_t hashOf(const PixelBuffer& b) { return nbtest::hashBytes(b.pixels()); }
 
 const std::filesystem::path kAssets = NB_ASSET_DIR;
@@ -25,7 +24,7 @@ std::filesystem::path writeTemp(const std::string& name, const std::string& cont
     return p;
 }
 
-} // namespace
+}
 
 TEST("PixelBuffer copy, move and self-assignment") {
     PixelBuffer a(4, 3, Shade::Light);
@@ -33,11 +32,11 @@ TEST("PixelBuffer copy, move and self-assignment") {
     PixelBuffer b(a);
     CHECK(a == b);
     b(0, 0) = Shade::Dark;
-    CHECK(a(0, 0) == Shade::Light);                // deep copy
+    CHECK(a(0, 0) == Shade::Light);
     PixelBuffer c(std::move(b));
-    CHECK(c.width() == 4 && b.width() == 0);       // moved-from is empty
+    CHECK(c.width() == 4 && b.width() == 0);
     auto& alias = c;
-    c = alias;                                      // self-assignment is safe
+    c = alias;
     CHECK(c(0, 0) == Shade::Dark);
     a = std::move(c);
     CHECK(a(0, 0) == Shade::Dark);
@@ -54,11 +53,9 @@ TEST("Renderer primitives hash") {
     r.fill(nb::Rect(4, 20, 12, 8), Dither::Half, Shade::Paper, Shade::Ink);
     r.circle({24, 24}, 6, Shade::Ink);
     r.fillCircle({8, 8}, 3, Shade::Ink);
-    // Clipping: drawing off-buffer must not crash.
     r.fill(nb::Rect(-10, -10, 100, 3), Shade::Dark);
     CHECK(buf(0, 0) == Shade::Ink || buf(0, 0) == Shade::Dark);
     const auto h = hashOf(buf);
-    // Same drawing twice is identical; any change in the algorithms changes the hash.
     PixelBuffer buf2(32, 32);
     Renderer r2(buf2);
     r2.line({0, 0}, {31, 20}, Shade::Ink);
@@ -67,7 +64,7 @@ TEST("Renderer primitives hash") {
     CHECK(buf(2, 2) == Shade::Dark && buf(11, 2) == Shade::Dark && buf(5, 5) != Shade::Dark);
     int inks = 0;
     for (int x = 4; x < 16; ++x) inks += buf(x, 21) == Shade::Ink;
-    CHECK(inks == 6);   // 50 % dither
+    CHECK(inks == 6);
 }
 
 TEST("Renderer camera and clip") {
@@ -88,7 +85,7 @@ TEST("Fonts load and draw") {
     CHECK(main.glyphWidth() == 5 && mini.glyphHeight() == 5);
     CHECK(main.textWidth("AB") == 11);
     CHECK(main.pixel('A', 2, 0) && !main.pixel('A', 0, 0));
-    CHECK(main.pixel('a', 2, 0));   // lower case falls back to upper
+    CHECK(main.pixel('a', 2, 0));
     PixelBuffer buf(40, 10);
     Renderer r(buf);
     r.setFonts(&main, &mini);
@@ -105,7 +102,7 @@ TEST("Font and sprite parse errors carry line numbers") {
         CHECK(e.line() == 4);
         CHECK(e.file() == "nb_bad.fnt");
     }
-    CHECK_THROWS_AS(BitmapFont::load(kAssets / "fonts/missing.fnt"), nb::FileNotFoundError);
+    CHECK_THROWS_AS(BitmapFont::load(kAssets / "fonts/missing.fnt"), nb::AssetError);
     const auto badSpr = writeTemp("nb_bad.spr", "sprite a 2 2\n01\n2\nend\n");
     CHECK_THROWS_AS(SpriteSheet::load(badSpr), nb::ParseError);
     const auto noEnd = writeTemp("nb_noend.spr", "sprite a 2 1\n01\n");
@@ -121,8 +118,8 @@ TEST("Sprite round trip and transparency") {
     PixelBuffer buf(4, 4, Shade::Paper);
     Renderer r(buf);
     r.draw(sheet, 0, {0, 0}, Flip::Horizontal);
-    CHECK(buf(0, 1) == Shade::Light);  // "1" flipped to the left edge
-    CHECK(buf(0, 0) == Shade::Paper);  // transparent pixel kept background
+    CHECK(buf(0, 1) == Shade::Light);
+    CHECK(buf(0, 0) == Shade::Paper);
     CHECK_THROWS_AS(sheet.get("nope"), nb::AssetError);
 }
 

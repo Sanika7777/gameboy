@@ -1,7 +1,5 @@
 #pragma once
 
-// Role: tiny self-registering test framework (no external test library allowed).
-
 #include <cstdint>
 #include <exception>
 #include <functional>
@@ -11,7 +9,6 @@
 #include <vector>
 
 namespace nbtest {
-
 struct Case {
     const char* name;
     std::function<void()> fn;
@@ -36,7 +33,6 @@ inline void fail(const char* file, int line, const std::string& what) {
     std::cerr << file << ':' << line << ": FAILED: " << what << '\n';
 }
 
-// FNV-1a over raw bytes: renderer tests compare buffer hashes.
 template<class T>
 std::uint64_t hashBytes(std::span<const T> data) {
     std::uint64_t h = 1469598103934665603ull;
@@ -47,7 +43,7 @@ std::uint64_t hashBytes(std::span<const T> data) {
     return h;
 }
 
-} // namespace nbtest
+}
 
 #define NB_CAT2(a, b) a##b
 #define NB_CAT(a, b) NB_CAT2(a, b)
@@ -72,7 +68,6 @@ std::uint64_t hashBytes(std::span<const T> data) {
         }                                                                              \
     } while (0)
 
-// Passes only for exactly Type (a more derived exception counts as a failure).
 #define CHECK_THROWS_AS(expr, Type)                                                    \
     do {                                                                               \
         bool nb_ok_ = false;                                                           \

@@ -13,23 +13,22 @@ using namespace nb;
 using namespace nb::audio;
 
 namespace {
-
 std::filesystem::path sfxFile(const std::string& text) {
     const auto p = std::filesystem::temp_directory_path() / "nb_sfx.txt";
     std::ofstream(p) << text;
     return p;
 }
 
-} // namespace
+}
 
 TEST("RingBuffer empty, full and wrap-around") {
-    RingBuffer<int, 4> rb;   // holds 3
+    RingBuffer<int, 4> rb;
     int v = 0;
     CHECK(rb.empty() && !rb.pop(v));
     CHECK(rb.push(1) && rb.push(2) && rb.push(3));
-    CHECK(!rb.push(4));      // full: dropped, not overwritten
+    CHECK(!rb.push(4));
     CHECK(rb.pop(v) && v == 1);
-    CHECK(rb.push(4));       // wraps past the end of the array
+    CHECK(rb.push(4));
     CHECK(rb.pop(v) && v == 2);
     CHECK(rb.pop(v) && v == 3);
     CHECK(rb.pop(v) && v == 4);
@@ -62,7 +61,7 @@ TEST("Mixer renders sound for a command, then silence") {
     m.play(d);
     m.render(buf);
     CHECK(std::any_of(buf.begin(), buf.end(), [](std::int16_t s) { return s != 0; }));
-    for (int i = 0; i < 4; ++i) m.render(buf);   // 20 ms + release are long gone
+    for (int i = 0; i < 4; ++i) m.render(buf);
     CHECK(std::all_of(buf.begin(), buf.end(), [](std::int16_t s) { return s == 0; }));
 }
 
@@ -73,7 +72,7 @@ TEST("SfxLibrary parses the real file and rejects bad lines") {
     CHECK(lib.find("nope") == nullptr);
     CHECK_THROWS_AS(SfxLibrary::load(sfxFile("sfx a pulse from=440 ms=10\nsfx b drum from=1 ms=1\n")), ParseError);
     CHECK_THROWS_AS(SfxLibrary::load(sfxFile("sfx a pulse duty=33 from=440 ms=10\n")), ParseError);
-    CHECK_THROWS_AS(SfxLibrary::load(sfxFile("sfx a pulse ms=10\n")), ParseError);   // missing from=
+    CHECK_THROWS_AS(SfxLibrary::load(sfxFile("sfx a pulse ms=10\n")), ParseError);
     CHECK_THROWS_AS(SfxLibrary::load(sfxFile("sfx a pulse from=440 ms=10\nsfx a wave from=1 ms=1\n")), ParseError);
     try {
         (void)SfxLibrary::load(sfxFile("# c\nsfx a pulse from=440 ms=10 vol=99\n"));

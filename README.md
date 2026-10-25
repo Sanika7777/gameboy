@@ -62,6 +62,6 @@ that any static host can serve. Saves live in IndexedDB on the web and in the SD
 - `design.md` — architecture, class design, file formats, game specs
 - `phases.md` — build order and what is done
 - `docs/oop-map.md` — every C++ OOP concept → file:symbol → why it's there
-- `docs/class-diagrams.md`, `docs/walkthrough.md`, `docs/viva-notes.md`
+- `docs/walkthrough.md` — one tap, from the screen to a pixel
 
 All games, art, fonts and sounds are original.

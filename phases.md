@@ -90,7 +90,7 @@ the engine.
 - [x] `core/Rect.hpp` — delegating ctor, `contains`, `operator&`
 - [x] `core/Seconds.hpp` (explicit strong type), `core/Clock` (fixed 1/60 s step, delta clamp 0.25 s)
 - [x] `core/Random` wrapping `std::mt19937` with seed control
-- [x] `core/Math.hpp` — function templates `lerp`, `approach`, `clampTo`
+- [x] function template `scenes::fmt` (was `core/Math.hpp`, removed as unused)
 - [x] `core/Log` — Meyers singleton (with comment on trade-offs), variadic `write` with fold
       expression, native append-mode `neobrick.log`
 - [x] `gfx/Shade` enum class; `gfx/Palette` (`initializer_list` ctor, static `preset()`)
@@ -415,11 +415,10 @@ the app still runs (saves may not persist there).
 
 - [x] Audit `docs/oop-map.md` against design §13 — every row has a `file:symbol` and one-line why
 - [x] Remove any concept usage that feels forced; replace it with a natural one
-- [x] Class diagrams (Mermaid in Markdown): game hierarchy, scenes, colliders, exceptions, I/O
-- [x] `docs/viva-notes.md`: 2–3 sentences per concept — what, where, why here
+- [x] ~~Class diagrams~~ and ~~viva notes~~: removed 2026-10-25, duplicated `design.md` and `docs/oop-map.md`
 - [x] `docs/walkthrough.md`: follow one tap from the screen to a pixel changing (touch → input →
       game → renderer → compositor)
-- [x] Final pass on comments: every class header has `// Role:` and accurate `// Demonstrates:`
+- [x] ~~Final pass on comments~~: comments removed 2026-10-25; `docs/oop-map.md` is the only concept index
 
 **Exit criteria**
 - Someone new can find any OOP concept in the code within a minute using `oop-map.md`

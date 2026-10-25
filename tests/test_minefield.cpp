@@ -27,18 +27,18 @@ TEST("MINEFIELD flood fill stops at numbers") {
     MinefieldGame g(w.ctx);
     A::rig(g, {{8, 8}});
     A::reveal(g, {0, 0});
-    CHECK(A::revealed(g, {7, 7}));    // a "1" next to the mine: revealed, but not expanded
+    CHECK(A::revealed(g, {7, 7}));
     CHECK(!A::revealed(g, {8, 8}));
-    CHECK(A::won(g));                 // everything but the one mine is open
+    CHECK(A::won(g));
 }
 
 TEST("MINEFIELD chording opens neighbours only when flags match") {
     nbtest::TestWorld w;
     MinefieldGame g(w.ctx);
     A::rig(g, {{1, 0}, {4, 4}});
-    A::reveal(g, {0, 1});              // a "1"
+    A::reveal(g, {0, 1});
     CHECK(A::adjacent(g, {0, 1}) == 1);
-    A::chord(g, {0, 1});               // no flag yet: nothing happens
+    A::chord(g, {0, 1});
     CHECK(!A::revealed(g, {0, 0}));
     A::flag(g, {1, 0});
     A::chord(g, {0, 1});

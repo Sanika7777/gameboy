@@ -43,7 +43,6 @@ TEST("SERPENT dies biting itself") {
     nbtest::TestWorld w;
     SerpentGame g(w.ctx);
     g.begin(0, 1);
-    // A long body so that turning down-left-up runs into it.
     A::setBody(g, {{10, 10}, {9, 10}, {8, 10}, {7, 10}, {6, 10}, {5, 10}});
     input::InputState in;
     in.press(Button::Down);
@@ -65,7 +64,7 @@ TEST("SERPENT rejects 180-degree reversals and buffers at most two turns") {
     SerpentGame g(w.ctx);
     g.begin(0, 1);
     input::InputState in;
-    in.press(Button::Left);   // reverse of Right: ignored
+    in.press(Button::Left);
     g.step(in, kStep);
     CHECK(A::queued(g) == 0u);
     in.release(Button::Left);
@@ -75,7 +74,7 @@ TEST("SERPENT rejects 180-degree reversals and buffers at most two turns") {
     in.press(Button::Left);
     g.step(in, kStep);
     in.release(Button::Left);
-    in.press(Button::Down);   // third turn: dropped
+    in.press(Button::Down);
     g.step(in, kStep);
     CHECK(A::queued(g) == 2u);
 }
@@ -89,7 +88,7 @@ TEST("SERPENT food placement is deterministic with a fixed seed") {
     nbtest::TestWorld w3(99);
     SerpentGame c(w3.ctx);
     c.begin(1, 3);
-    CHECK(SerpentGame::alive() == 3);
+    CHECK(nb::games::Game::liveInstances() == 3);
 }
 
 TEST("SERPENT save state round trip") {

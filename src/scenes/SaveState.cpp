@@ -5,15 +5,13 @@
 #include <algorithm>
 
 namespace nb::scenes {
-
 namespace {
-
 constexpr std::array<std::uint8_t, 4> kMagic{'N', 'B', 'S', 'V'};
 constexpr std::uint16_t kVersion = 1;
 
 std::filesystem::path pathFor(std::string_view id) { return io::Paths::save(std::string(id) + ".sav"); }
 
-} // namespace
+}
 
 bool hasSave(std::string_view gameId) { return std::filesystem::exists(pathFor(gameId)); }
 
@@ -48,4 +46,4 @@ void deleteSave(std::string_view gameId, io::IPersistence& p) noexcept {
     if (std::filesystem::remove(path, ec)) p.remove(path);
 }
 
-} // namespace nb::scenes
+}

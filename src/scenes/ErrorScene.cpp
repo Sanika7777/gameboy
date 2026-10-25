@@ -6,13 +6,11 @@
 #include "scenes/MenuScene.hpp"
 
 namespace nb::scenes {
-
 using gfx::Shade;
 using gfx::TextStyle;
 using input::Button;
 
 namespace {
-
 constexpr std::size_t kColumns = 26;
 
 void wrapInto(std::vector<std::string>& out, std::string text, const std::string& prefix) {
@@ -35,7 +33,7 @@ void wrapInto(std::vector<std::string>& out, std::string text, const std::string
     out.push_back(line);
 }
 
-} // namespace
+}
 
 ErrorScene::ErrorScene(Services& s, std::exception_ptr error) : s_(s) {
     try {
@@ -50,7 +48,6 @@ ErrorScene::ErrorScene(Services& s, std::exception_ptr error) : s_(s) {
 
 void ErrorScene::describe(const std::exception& e) {
     wrapInto(lines_, e.what(), lines_.empty() ? "" : "> ");
-    // RTTI: only a ParseError knows a file and line; other errors may carry a context string.
     if (const auto* pe = dynamic_cast<const ParseError*>(&e)) {
         wrapInto(lines_, pe->file(), "> ");
         wrapInto(lines_, "LINE " + std::to_string(pe->line()), "> ");
@@ -69,7 +66,7 @@ void ErrorScene::describe(const std::exception& e) {
 
 void ErrorScene::onEnter() { s_.sfx("error"); }
 
-void ErrorScene::update(const input::InputState& in, Seconds) {
+void ErrorScene::update(const input::InputState& in, double) {
     if (in.pressed(Button::A) || in.pressed(Button::Start)) {
         s_.sfx("back");
         s_.scenes.resetTo<MenuScene>(s_);
@@ -88,4 +85,4 @@ void ErrorScene::draw(gfx::Renderer& r) const {
     footer(r, "A: MENU");
 }
 
-} // namespace nb::scenes
+}

@@ -7,20 +7,18 @@ using namespace nb;
 using namespace nb::input;
 
 namespace {
-
 const gfx::BitmapFont& mini() {
     static const auto f = gfx::BitmapFont::load(std::filesystem::path(NB_ASSET_DIR) / "fonts/mini3x5.fnt");
     return f;
 }
 
-// Landscape 320×180 at scale 1, so physical == surface coordinates.
 device::DeviceShell landscape() {
     device::DeviceShell s(mini());
     s.configure(std::make_unique<device::LandscapeLayout>(), {320, 180});
     return s;
 }
 
-} // namespace
+}
 
 TEST("Edge detection across frames") {
     InputState s;
@@ -62,14 +60,14 @@ TEST("Hit testing: LCD, D-pad sectors and dead zone, A/B, pills") {
 TEST("Touch: two thumbs, sliding, dead zone keeps direction") {
     auto shell = landscape();
     InputManager in(shell);
-    in.handle(FingerEvent{1, PointerPhase::Down, {40, 85}});   // Up
-    in.handle(FingerEvent{2, PointerPhase::Down, {293, 92}});  // A
+    in.handle(FingerEvent{1, PointerPhase::Down, {40, 85}});
+    in.handle(FingerEvent{2, PointerPhase::Down, {293, 92}});
     in.beginFrame();
     CHECK(in.state().held(Button::Up) && in.state().held(Button::A));
-    in.handle(FingerEvent{1, PointerPhase::Move, {41, 101}});  // dead zone
+    in.handle(FingerEvent{1, PointerPhase::Move, {41, 101}});
     in.beginFrame();
     CHECK(in.state().held(Button::Up));
-    in.handle(FingerEvent{1, PointerPhase::Move, {55, 100}});  // roll to Right
+    in.handle(FingerEvent{1, PointerPhase::Move, {55, 100}});
     in.beginFrame();
     CHECK(in.state().held(Button::Right) && !in.state().held(Button::Up));
     CHECK(in.state().pressed(Button::Right));

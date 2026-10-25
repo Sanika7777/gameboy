@@ -13,13 +13,11 @@
 #include <string>
 
 namespace nb::platform {
-
 void SdlDeleter::operator()(SDL_Window* w) const noexcept { SDL_DestroyWindow(w); }
 void SdlDeleter::operator()(SDL_Renderer* r) const noexcept { SDL_DestroyRenderer(r); }
 void SdlDeleter::operator()(SDL_Texture* t) const noexcept { SDL_DestroyTexture(t); }
 
 namespace {
-
 [[noreturn]] void fail(const char* what) { throw PlatformError("PLATFORM ERROR", std::string(what) + ": " + SDL_GetError()); }
 
 Key toKey(SDL_Keycode k) noexcept {
@@ -52,7 +50,7 @@ bool onVisibility(int, const EmscriptenVisibilityChangeEvent* e, void* user) {
 }
 #endif
 
-} // namespace
+}
 
 SdlPlatform::Init::Init() {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) fail("SDL_Init");
@@ -60,13 +58,9 @@ SdlPlatform::Init::Init() {
 SdlPlatform::Init::~Init() { SDL_Quit(); }
 
 SdlPlatform::SdlPlatform() {
-    // On the web, RESIZABLE + ALLOW_HIGHDPI makes SDL size the canvas backing store to
-    // CSS size × devicePixelRatio on every resize (design §4.4).
     window_.reset(SDL_CreateWindow("NEOBRICK", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 540,
                                    SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI));
     if (!window_) fail("SDL_CreateWindow");
-    // Web debug builds log "set_main_loop_timing … main loop does not exist" here: SDL sets the swap
-    // interval before main() starts the loop. Harmless; the loop then runs on requestAnimationFrame.
     renderer_.reset(SDL_CreateRenderer(window_.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
     if (!renderer_) fail("SDL_CreateRenderer");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
@@ -87,7 +81,6 @@ Vec2i SdlPlatform::physSize() const {
 }
 
 std::span<const PlatformEvent> SdlPlatform::pumpEvents() {
-    // Drop what the caller saw last time, but keep browser callbacks that arrived since.
     events_.erase(events_.begin(), events_.begin() + static_cast<std::ptrdiff_t>(std::min(seen_, events_.size())));
 
     int winW = 1, winH = 1;
@@ -113,7 +106,6 @@ std::span<const PlatformEvent> SdlPlatform::pumpEvents() {
                                           {static_cast<int>(e.tfinger.x * phys.x), static_cast<int>(e.tfinger.y * phys.y)}});
             break;
         }
-        // SDL also synthesizes mouse events from touches; the finger events already cover those.
         case SDL_MOUSEBUTTONDOWN:
         case SDL_MOUSEBUTTONUP:
             if (e.button.which != SDL_TOUCH_MOUSEID && e.button.button == SDL_BUTTON_LEFT)
@@ -147,7 +139,6 @@ void SdlPlatform::present(std::span<const std::uint32_t> pixels, Vec2i size, Vec
     }
     SDL_UpdateTexture(texture_.get(), nullptr, pixels.data(), size.x * static_cast<int>(sizeof(std::uint32_t)));
 
-    // Letterbox in the case's edge colour (bottom-left pixel of the face).
     const std::uint32_t c = pixels[pixels.size() - static_cast<std::size_t>(size.x)];
     SDL_SetRenderDrawColor(renderer_.get(), (c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF, 0xFF);
     SDL_RenderClear(renderer_.get());
@@ -187,12 +178,12 @@ void SdlPlatform::openAudio(AudioFn fn, void* user) {
         auto* p = static_cast<SdlPlatform*>(self);
         p->audioFn_(p->audioUser_, reinterpret_cast<std::int16_t*>(stream), len / 2);
     };
-    audioDevice_ = SDL_OpenAudioDevice(nullptr, 0, &want, nullptr, 0);   // 0: SDL converts if needed
+    audioDevice_ = SDL_OpenAudioDevice(nullptr, 0, &want, nullptr, 0);
     if (!audioDevice_) {
         logWarn("no audio device: ", SDL_GetError());
         return;
     }
-    SDL_PauseAudioDevice(audioDevice_, 0);   // the browser keeps it silent until the first gesture
+    SDL_PauseAudioDevice(audioDevice_, 0);
 }
 
 void SdlPlatform::pauseAudio(bool paused) {
@@ -201,7 +192,7 @@ void SdlPlatform::pauseAudio(bool paused) {
 
 void SdlPlatform::vibrate(int ms) {
 #ifdef __EMSCRIPTEN__
-    emscripten_vibrate(ms);   // no-op where unsupported (iOS Safari)
+    emscripten_vibrate(ms);
 #else
     (void)ms;
 #endif
@@ -231,4 +222,4 @@ std::filesystem::path SdlPlatform::saveDir() {
     return p;
 }
 
-} // namespace nb::platform
+}

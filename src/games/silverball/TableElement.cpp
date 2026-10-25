@@ -1,22 +1,21 @@
 #include "games/silverball/TableElement.hpp"
 
+#include "games/silverball/SilverballGame.hpp"
+
 #include <algorithm>
 
 namespace nb::games::silverball {
-
 using gfx::Shade;
 
 namespace {
-
 Vec2i px(Vec2f v) { return {static_cast<int>(std::lround(v.x)), static_cast<int>(std::lround(v.y))}; }
 
-// Kicks the ball away from a surface so it leaves at least `minSpeed` along the normal.
 void kick(Ball& b, Vec2f n, float minSpeed) {
     const float along = dot(b.vel, n);
     if (along < minSpeed) b.vel += n * (minSpeed - along);
 }
 
-} // namespace
+}
 
 Wall::Wall(Vec2f a, Vec2f b) : Identifiable("wall"), TableElement(std::make_unique<SegmentCollider>(a, b, 1.0f), 0.5f), a_(a), b_(b) {}
 void Wall::draw(gfx::Renderer& r) const { r.line(px(a_), px(b_), Shade::Ink); }
@@ -24,7 +23,7 @@ void Wall::draw(gfx::Renderer& r) const { r.line(px(a_), px(b_), Shade::Ink); }
 Bumper::Bumper(Vec2f c, float rad, int score)
     : Identifiable("bumper"), TableElement(std::make_unique<CircleCollider>(c, rad), 0.9f), c_(c), r_(rad), score_(score) {}
 
-void Bumper::onHit(Ball& b, Rules& rules, const Contact& c) {
+void Bumper::onHit(Ball& b, SilverballGame& rules, const Contact& c) {
     kick(b, c.normal, 180.0f);
     flash_ = 8;
     rules.award(score_);
@@ -42,7 +41,7 @@ void Bumper::draw(gfx::Renderer& r) const {
 Slingshot::Slingshot(Vec2f a, Vec2f b, int score)
     : Identifiable("sling"), TableElement(std::make_unique<SegmentCollider>(a, b, 1.5f), 0.6f), a_(a), b_(b), score_(score) {}
 
-void Slingshot::onHit(Ball& b, Rules& rules, const Contact& c) {
+void Slingshot::onHit(Ball& b, SilverballGame& rules, const Contact& c) {
     kick(b, c.normal, 150.0f);
     flash_ = 6;
     rules.award(score_);
@@ -60,7 +59,7 @@ DropTarget::DropTarget(Vec2f at, Vec2f size, int score, char group)
       TableElement(std::make_unique<SegmentCollider>(at + Vec2f{0, size.y / 2}, at + Vec2f{size.x, size.y / 2}, size.y / 2), 0.4f),
       at_(at), size_(size), score_(score), group_(group) {}
 
-void DropTarget::onHit(Ball&, Rules& rules, const Contact& c) {
+void DropTarget::onHit(Ball&, SilverballGame& rules, const Contact& c) {
     down_ = true;
     rules.award(score_);
     rules.sound("target");
@@ -79,7 +78,7 @@ void DropTarget::draw(gfx::Renderer& r) const {
 
 Rollover::Rollover(Vec2f at, int lane) : Identifiable("rollover"), TableElement(nullptr, 0), at_(at), lane_(lane) {}
 
-void Rollover::sense(const Ball& b, Rules& rules) {
+void Rollover::sense(const Ball& b, SilverballGame& rules) {
     const bool in = length(b.pos - at_) < 5.0f;
     if (in && !inside_ && !lit_) {
         lit_ = true;
@@ -104,12 +103,12 @@ Flipper::Flipper(bool left, Vec2f pivot, float len)
     shape_->setAngle(angle_, 0);
 }
 
-void Flipper::update(Seconds dt) {
+void Flipper::update(double dt) {
     const float target = pressed_ ? kUp : kRest;
-    const float step = kSpeed * dt.asFloat();
+    const float step = kSpeed * dt;
     const float before = angle_;
     angle_ = angle_ < target ? std::min(angle_ + step, target) : std::max(angle_ - step, target);
-    shape_->setAngle(angle_, (angle_ - before) / dt.asFloat());
+    shape_->setAngle(angle_, (angle_ - before) / dt);
 }
 
 void Flipper::loadState(io::BinaryReader& r) {
@@ -127,8 +126,8 @@ void Flipper::draw(gfx::Renderer& r) const {
 Plunger::Plunger(Vec2f at)
     : Identifiable("plunger"), TableElement(std::make_unique<SegmentCollider>(at + Vec2f{-4, 0}, at + Vec2f{4, 0}, 1.0f), 0.1f), at_(at) {}
 
-void Plunger::update(Seconds dt) {
-    if (pulling_) pull_ = std::min(1.0f, pull_ + dt.asFloat() * 1.2f);
+void Plunger::update(double dt) {
+    if (pulling_) pull_ = std::min(1.0f, pull_ + static_cast<float>(dt) * 1.2f);
 }
 
 bool Plunger::released(float& power) noexcept {
@@ -147,4 +146,4 @@ void Plunger::draw(gfx::Renderer& r) const {
     for (int k = y + 3; k < static_cast<int>(at_.y) + 16; k += 2) r.line({x - 2, k}, {x + 2, k}, Shade::Dark);
 }
 
-} // namespace nb::games::silverball
+}

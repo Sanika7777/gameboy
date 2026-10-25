@@ -1,7 +1,5 @@
 #pragma once
 
-// Role: turns pointer activity on the LCD into taps, swipes and long-presses.
-
 #include "input/InputState.hpp"
 
 #include <algorithm>
@@ -9,12 +7,11 @@
 #include <utility>
 
 namespace nb::input {
-
 class GestureRecognizer {
 public:
-    static constexpr int kSwipeDistance = 12;   // LCD px
-    static constexpr int kSwipeFrames = 15;     // 250 ms
-    static constexpr int kLongPressFrames = 21; // 350 ms
+    static constexpr int kSwipeDistance = 12;
+    static constexpr int kSwipeFrames = 15;
+    static constexpr int kLongPressFrames = 21;
     static constexpr int kStillDistance = 3;
 
     void down(Vec2i lcd) noexcept {
@@ -40,7 +37,6 @@ public:
         if (active_ && !decided_ && moved() <= kStillDistance) emit(Gesture::Kind::Tap);
         active_ = false;
     }
-    // Once per frame.
     void tick() noexcept {
         if (!active_) return;
         ++age_;
@@ -67,4 +63,4 @@ private:
     std::optional<Gesture> gesture_;
 };
 
-} // namespace nb::input
+}

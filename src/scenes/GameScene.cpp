@@ -10,20 +10,18 @@
 #include <exception>
 
 namespace nb::scenes {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
 using input::Button;
 
 GameScene::GameScene(Services& s, const std::string& gameId, bool resume)
-    : s_(s), ctx_{s.rng, s.events, s.assets, s.settings.get()} {
+    : s_(s), ctx_{s.rng, s.events, s.settings.get()} {
     const auto* info = s.registry.find(gameId);
     try {
         game_ = s.registry.create(gameId, ctx_);
     } catch (const AssetError&) {
-        // Keep the asset detail (file:line) and add which cartridge failed on top.
-        std::throw_with_nested(GameError("CAN'T START " + (info ? info->title : gameId)));
+        std::throw_with_nested(Error("CAN'T START " + (info ? info->title : gameId)));
     }
     if (!resume) return;
     try {
@@ -33,12 +31,12 @@ GameScene::GameScene(Services& s, const std::string& gameId, bool resume)
         s_.toast("SAVE UNREADABLE");
         game_->reset();
     }
-    deleteSave(gameId, s_.persistence);   // a save state is used once
+    deleteSave(gameId, s_.persistence);
 }
 
 GameScene::~GameScene() = default;
 
-void GameScene::update(const input::InputState& in, Seconds dt) {
+void GameScene::update(const input::InputState& in, double dt) {
     if (overFrames_ >= 0) {
         ++overFrames_;
         if (overFrames_ > 150 || (overFrames_ > 40 && (in.pressed(Button::A) || in.pressed(Button::Start) || in.lcdTap()))) finish();
@@ -81,7 +79,6 @@ void GameScene::draw(gfx::Renderer& r) const {
 }
 
 void GameScene::onHidden() {
-    // Auto-pause, and keep a save state in case the tab never comes back.
     if (overFrames_ >= 0 || !game_->isPlaying()) return;
     if (game_->supportsSaveState()) {
         try {
@@ -110,8 +107,8 @@ void GameScene::saveAndQuit() {
 }
 
 void GameScene::quit() {
-    s_.scenes.pop();   // pause
-    s_.scenes.pop();   // this
+    s_.scenes.pop();
+    s_.scenes.pop();
 }
 
-} // namespace nb::scenes
+}

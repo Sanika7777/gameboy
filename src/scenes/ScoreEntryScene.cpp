@@ -5,7 +5,6 @@
 #include <ctime>
 
 namespace nb::scenes {
-
 using gfx::Align;
 using gfx::Shade;
 using gfx::TextStyle;
@@ -25,7 +24,7 @@ void ScoreEntryScene::submit() {
     s_.sfx("score");
 }
 
-void ScoreEntryScene::update(const input::InputState& in, Seconds) {
+void ScoreEntryScene::update(const input::InputState& in, double) {
     ++frames_;
     if (done_) {
         if (in.pressed(Button::A) || in.pressed(Button::Start) || in.pressed(Button::B) || in.lcdTap()) {
@@ -79,4 +78,4 @@ void ScoreEntryScene::draw(gfx::Renderer& r) const {
     footer(r, "A: CONTINUE");
 }
 
-} // namespace nb::scenes
+}
