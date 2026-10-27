@@ -1,1 +1,6 @@
 build/
+.emscripten_cache/
+.emsdk/
+.vercel/
+*.tmp
+*.log

@@ -1,0 +1,84 @@
+name: Build and deploy NEOBRICK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neobrick-production
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    env:
+      EMSDK_VERSION: 3.1.74
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y cmake ninja-build python3
+
+      - name: Set up Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: ${{ env.EMSDK_VERSION }}
+          actions-cache-folder: emsdk-cache
+
+      - name: Verify Emscripten
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v emcmake
+          command -v emcc
+          emcc --version
+
+      - name: Configure web release
+        run: cmake --preset web-release
+
+      - name: Build web release
+        run: cmake --build --preset web-release
+
+      - name: Verify static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          output_dir="build/web-release"
+          test -f "$output_dir/index.html"
+          test -s "$output_dir/index.js"
+          test -s "$output_dir/index.wasm"
+          test -s "$output_dir/index.data"
+          grep -q '<canvas id="canvas">' "$output_dir/index.html"
+          grep -q 'index.js' "$output_dir/index.html"
+          grep -q 'index.data' "$output_dir/index.js"
+          grep -q 'index.wasm' "$output_dir/index.js"
+
+      - name: Upload built website
+        uses: actions/upload-artifact@v4
+        with:
+          name: neobrick-web
+          path: build/web-release
+          if-no-files-found: error
+
+      - name: Deploy production site to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$VERCEL_TOKEN"
+          test -n "$VERCEL_ORG_ID"
+          test -n "$VERCEL_PROJECT_ID"
+          mkdir -p build/web-release/.vercel
+          printf '{"orgId":"%s","projectId":"%s"}\n' "$VERCEL_ORG_ID" "$VERCEL_PROJECT_ID" > build/web-release/.vercel/project.json
+          npx --yes vercel@39.2.0 deploy . --cwd build/web-release --local-config ../../vercel.json --prod --token "$VERCEL_TOKEN" --scope "$VERCEL_ORG_ID" --yes
