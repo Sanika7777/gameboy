@@ -2,5 +2,8 @@ build/
 .emscripten_cache/
 .emsdk/
 .vercel/
+.env.local
 *.tmp
 *.log
+.vercel
+.env*
